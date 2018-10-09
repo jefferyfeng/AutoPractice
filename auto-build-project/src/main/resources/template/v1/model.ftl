@@ -1,0 +1,1 @@
+package ${var.base_pack_url}.${var.module}.model;
