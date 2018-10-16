@@ -1,4 +1,4 @@
-package com.dongao.core.base.pojo;
+package ${pojoPackage};
 
 /**
  * 基础类，所有pojo都要继承
