@@ -5,6 +5,7 @@ import java.util.Properties;
 
 /**
  * 读取项目初始化参数
+ * @author fdh
  */
 public class ConfigReader {
     private static Properties pro = new Properties();
@@ -14,7 +15,10 @@ public class ConfigReader {
         try {
             //加载配置文件
             pro.load(ConfigReader.class.getResourceAsStream("/config/auto.properties"));
-            //为配置实体赋值
+            /**
+             * 为配置实体赋值
+             */
+            //基础 boss 部分
             config.setTemplateUrl(pro.getProperty("template.url"));
             config.setGroupId(pro.getProperty("project.groupId"));
             config.setProjectName(pro.getProperty("project.projectName"));
@@ -27,12 +31,20 @@ public class ConfigReader {
             }
             config.setUsername(pro.getProperty("jdbc.username"));
             config.setPassword(pro.getProperty("jdbc.password"));
-            config.setTableName(pro.getProperty("jdbc.tableName"));
-            config.setOutputDir(pro.getProperty("output.baseUrl"));
+            config.setBaseBossDir(pro.getProperty("base.boss.dir"));
             config.setEntityPackageName(pro.getProperty("package.entity"));
             config.setDaoPackageName(pro.getProperty("package.dao"));
             config.setServicePackageName(pro.getProperty("package.service"));
             config.setControllerPackageName(pro.getProperty("package.controller"));
+            //shiro表名
+            config.setSysUser(pro.getProperty("boss.userTable"));
+            config.setSysRole(pro.getProperty("boss.roleTable"));
+            config.setSysUserRole(pro.getProperty("boss.userRoleTable"));
+            config.setSysPermission(pro.getProperty("boss.permissionTable"));
+            config.setSysRolePermission(pro.getProperty("boss.rolePermissionTable"));
+
+            //子模块部分 TODO 后续跟进
+            config.setTableName(pro.getProperty("jdbc.tableName"));
         } catch (IOException e) {
             new RuntimeException("配置文件不存在！");
         }

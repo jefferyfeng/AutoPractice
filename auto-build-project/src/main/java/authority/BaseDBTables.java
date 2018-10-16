@@ -1,5 +1,7 @@
 package authority;
 
+import init.ConfigReader;
+import init.Configration;
 import util.ConnectionUtil;
 
 import java.sql.Connection;
@@ -7,60 +9,160 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class BaseDBTables {
+    private static Configration config = ConfigReader.getConfig();
     /**
      * 创建用户表
      */
-    public static void createUserTable(){
+    public static void createUserTable() {
+        String sysUserTableName = "sys_user";
+        if (config.getSysUser() != null) {
+            sysUserTableName = config.getSysUser();
+        }
         try {
             Connection conn = ConnectionUtil.getConn();
             Statement stm = conn.createStatement();
-            String sql = "CREATE TABLE boss_user (\n" +
-                    "  id bigint(20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id' ,\n" +
-                    "  username varchar(40) NOT NULL UNIQUE COMMENT '用户名' ,\n" +
-                    "  password varchar(40) DEFAULT NULL COMMENT '密码',\n" +
-                    "  user_name varchar(32) DEFAULT NULL COMMENT '姓名',\n" +
-                    "  sex int(2) DEFAULT NULL COMMENT '性别',\n" +
-                    "  type int(11) DEFAULT NULL COMMENT '类型:0.总管理员/1.管理员/2.管理员',\n" +
-                    "  email varchar(32) DEFAULT NULL UNIQUE COMMENT '邮箱',\n" +
-                    "  mobile varchar(32) DEFAULT NULL UNIQUE COMMENT '手机号',\n" +
-                    "  salt varchar(32) DEFAULT NULL COMMENT '盐值',\n" +
-                    "  user_status int(11) DEFAULT '1' COMMENT '用户状态 0.禁用/1.启用',\n" +
-                    "  last_login_time datetime DEFAULT NULL COMMENT '最近一次的登陆时间',\n" +
-                    "  is_valid int(1) DEFAULT NULL COMMENT '是否有效 0.无效 /1.有效',\n" +
-                    "  create_date datetime DEFAULT NULL COMMENT '创建日期',\n" +
-                    "  create_user bigint(20) DEFAULT NULL COMMENT '创建人',\n" +
-                    "  update_date datetime DEFAULT NULL COMMENT '更新日期',\n" +
-                    "  update_user bigint(20) DEFAULT NULL COMMENT '更新人'\n" +
+            String sql = "CREATE TABLE " + sysUserTableName + "(\n" +
+                    "\tid BIGINT (20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n " +
+                    "\tusername VARCHAR (255) UNIQUE NOT NULL COMMENT '用户名',\n" +
+                    "\tsex INT (2) COMMENT '性别 0.未知 1.男 2.女',\n" +
+                    "\temail VARCHAR (255) UNIQUE COMMENT '邮箱',\n" +
+                    "\tpassword VARCHAR (40) NOT NULL COMMENT '密码',\n" +
+                    "\tphone VARCHAR (32) COMMENT '手机号',\n" +
+                    "\tsalt VARCHAR (20) NOT NULL COMMENT '盐值',\n" +
+                    "\tstatus INT NOT NULL COMMENT '用户状态0.禁用 1.启用',\n" +
+                    "\tis_valid INT (2) NOT NULL COMMENT '是否有效 0.无效 1.有效',\n" +
+                    "\tcreate_date datetime COMMENT '创建时间',\n" +
+                    "\tcreate_user BIGINT (20) DEFAULT NULL COMMENT '创建人',\n" +
+                    "\tupdate_date datetime COMMENT '修改时间',\n" +
+                    "\tupdate_user BIGINT (20) DEFAULT NULL COMMENT '更新人'\n" +
                     ")";
             stm.executeUpdate(sql);
-        } catch (SQLException e) {
+            System.out.println("Table :" + sysUserTableName + " 创建成功！");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void createRole(){
+    /**
+     * 创建角色表
+     */
+    public static void createRoleTable() {
+        String sysRoleTableName = "sys_role";
+        if (config.getSysRole() != null) {
+            sysRoleTableName = config.getSysRole();
+        }
         try {
             Connection conn = ConnectionUtil.getConn();
             Statement stm = conn.createStatement();
-            String sql = "CREATE TABLE boss_role (\n" +
+            String sql = "CREATE TABLE "+ sysRoleTableName +"(\n" +
+                    "\tid BIGINT (20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n" +
+                    "\trole_name VARCHAR (255) DEFAULT NULL COMMENT '角色名称',\n" +
+                    "\tdescription VARCHAR (512) DEFAULT NULL COMMENT '角色描述',\n" +
+                    "\tstatus INT (2) DEFAULT NULL COMMENT '状态',\n" +
+                    "\tis_valid INT (11) DEFAULT NULL COMMENT '是否有效 0.无效 1.有效',\n" +
+                    "\tcreate_date datetime DEFAULT NULL COMMENT '创建时间',\n" +
+                    "\tcreate_user BIGINT (20) DEFAULT NULL COMMENT '创建人',\n" +
+                    "\tupdate_date datetime DEFAULT NULL COMMENT '更新时间',\n" +
+                    "\tupdate_user BIGINT (20) DEFAULT NULL COMMENT '更新人'\n" +
+                    ")";
+            stm.executeUpdate(sql);
+            System.out.println("Table :" + sysRoleTableName + " 创建成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 创建用户角色表
+     */
+    public static void createUserRoleTable() {
+        String sysUserRoleTableName = "sys_user_role";
+        if (config.getSysUserRole() != null) {
+            sysUserRoleTableName = config.getSysUserRole();
+        }
+        try {
+            Connection conn = ConnectionUtil.getConn();
+            Statement stm = conn.createStatement();
+            String sql = "CREATE TABLE "+sysUserRoleTableName +"(\n" +
+                    "\tid BIGINT (20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n" +
+                    "\tuser_id BIGINT (32) NOT NULL COMMENT '用户id',\n" +
+                    "\trole_id VARCHAR (32) NOT NULL COMMENT '角色id',\n" +
+                    "\tis_valid INT (11) DEFAULT NULL COMMENT '是否有效 0.无效 1.有效',\n" +
+                    "\tcreate_date datetime DEFAULT NULL COMMENT '创建时间',\n" +
+                    "\tcreate_user BIGINT (20) DEFAULT NULL COMMENT '创建人',\n" +
+                    "\tupdate_date datetime DEFAULT NULL COMMENT '更新时间',\n" +
+                    "\tupdate_user BIGINT (20) DEFAULT NULL COMMENT '更新人'\n" +
+                    ")";
+            stm.executeUpdate(sql);
+            System.out.println("Table :" + sysUserRoleTableName + " 创建成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 创建权限表
+     */
+    public static void createPermissionTable() {
+        String sysPermissionTableName = "sys_permission";
+        if (config.getSysPermission() != null) {
+            sysPermissionTableName = config.getSysPermission();
+        }
+        try {
+            Connection conn = ConnectionUtil.getConn();
+            Statement stm = conn.createStatement();
+            String sql = "CREATE TABLE " + sysPermissionTableName+" (\n" +
                     "  id bigint(20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n" +
-                    "  role_name varchar(255) DEFAULT NULL COMMENT '角色名称',\n" +
-                    "  description varchar(255) DEFAULT NULL COMMENT '角色描述',\n" +
-                    "  status int(2) DEFAULT NULL COMMENT '状态 0禁用 1启用',\n" +
-                    "  is_valid int(11) DEFAULT NULL COMMENT '是否有效 0.无效 /1.有效',\n" +
-                    "  create_date datetime DEFAULT NULL COMMENT '创建日期',\n" +
+                    "  permission_name varchar(128) DEFAULT NULL COMMENT '权限名称',\n" +
+                    "  parent_id varchar(128) DEFAULT NULL COMMENT '父级权限id',\n" +
+                    "  permission_url varchar(128) DEFAULT NULL COMMENT '权限URL',\n" +
+                    "  sequence int(2) DEFAULT NULL COMMENT '次序',\n" +
+                    "  permission_icon varchar(64) DEFAULT NULL,\n" +
+                    "  is_valid int(11) DEFAULT NULL COMMENT '是否有效0.无效 1.有效',\n" +
+                    "  create_date datetime DEFAULT NULL COMMENT '创建时间',\n" +
                     "  create_user bigint(20) DEFAULT NULL COMMENT '创建人',\n" +
-                    "  update_date datetime DEFAULT NULL COMMENT '更新日期',\n" +
+                    "  update_date datetime DEFAULT NULL COMMENT '更新时间',\n" +
                     "  update_user bigint(20) DEFAULT NULL COMMENT '更新人'\n" +
                     ")";
             stm.executeUpdate(sql);
-        } catch (SQLException e) {
+            System.out.println("Table :" + sysPermissionTableName + " 创建成功！");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * 创建角色权限表
+     */
+    public static void createRolePermissionTable() {
+        String sysRolePermissionTableName = "sys_role_permission";
+        if (config.getSysRolePermission() != null) {
+            sysRolePermissionTableName = config.getSysRolePermission();
+        }
+        try {
+            Connection conn = ConnectionUtil.getConn();
+            Statement stm = conn.createStatement();
+            String sql = "CREATE TABLE " + sysRolePermissionTableName +" (\n" +
+                    "  id bigint(20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n" +
+                    "  role_id varchar(32) NOT NULL COMMENT '角色id',\n" +
+                    "  permission_id varchar(32) NOT NULL COMMENT '权限id',\n" +
+                    "  is_valid int(11) DEFAULT NULL COMMENT '是否有效0.无效 1.有效',\n" +
+                    "  create_date datetime DEFAULT NULL COMMENT '创建时间',\n" +
+                    "  create_user bigint(20) DEFAULT NULL COMMENT '创建人',\n" +
+                    "  update_date datetime DEFAULT NULL COMMENT '更新时间',\n" +
+                    "  update_user bigint(20) DEFAULT NULL COMMENT '更新人'\n" +
+                    ")";
+            stm.executeUpdate(sql);
+            System.out.println("Table :" + sysRolePermissionTableName + " 创建成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-    public static void release(){
+    /**
+     * 释放连接
+     */
+    public static void close() {
         ConnectionUtil.realseConn();
     }
 }

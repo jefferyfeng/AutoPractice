@@ -2,30 +2,37 @@ package init;
 
 /**
  * 配置文件对应实体
+ * @author fdh
  */
 public class Configration {
-    private String templateUrl;
+    /**
+     * boss 基础部分
+     */
     private String groupId;
     private String projectName;
     private String dbType;
+    //private String dbIp; 加载配置文件的时候合并为dbUrl
     private String dbUrl;
     private String username;
     private String password;
-    private String tableName;
-    private String outputDir;
+    private String baseBossDir;
+    //模板版本
+    private String templateUrl;
     //项目包名命名习惯
     private String entityPackageName;
     private String daoPackageName;
     private String servicePackageName;
     private String controllerPackageName;
-
-    public String getTemplateUrl() {
-        return templateUrl;
-    }
-
-    public void setTemplateUrl(String templateUrl) {
-        this.templateUrl = templateUrl;
-    }
+    //shiro基础表
+    private String sysUser;
+    private String sysRole;
+    private String sysUserRole;
+    private String sysPermission;
+    private String sysRolePermission;
+    /**
+     * 子模块
+     */
+    private String tableName;
 
     public String getGroupId() {
         return groupId;
@@ -75,20 +82,20 @@ public class Configration {
         this.password = password;
     }
 
-    public String getTableName() {
-        return tableName;
+    public String getBaseBossDir() {
+        return baseBossDir;
     }
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public void setBaseBossDir(String baseBossDir) {
+        this.baseBossDir = baseBossDir;
     }
 
-    public String getOutputDir() {
-        return outputDir;
+    public String getTemplateUrl() {
+        return templateUrl;
     }
 
-    public void setOutputDir(String outputDir) {
-        this.outputDir = outputDir;
+    public void setTemplateUrl(String templateUrl) {
+        this.templateUrl = templateUrl;
     }
 
     public String getEntityPackageName() {
@@ -121,5 +128,53 @@ public class Configration {
 
     public void setControllerPackageName(String controllerPackageName) {
         this.controllerPackageName = controllerPackageName;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(String sysUser) {
+        this.sysUser = sysUser;
+    }
+
+    public String getSysRole() {
+        return sysRole;
+    }
+
+    public void setSysRole(String sysRole) {
+        this.sysRole = sysRole;
+    }
+
+    public String getSysUserRole() {
+        return sysUserRole;
+    }
+
+    public void setSysUserRole(String sysUserRole) {
+        this.sysUserRole = sysUserRole;
+    }
+
+    public String getSysPermission() {
+        return sysPermission;
+    }
+
+    public void setSysPermission(String sysPermission) {
+        this.sysPermission = sysPermission;
+    }
+
+    public String getSysRolePermission() {
+        return sysRolePermission;
+    }
+
+    public void setSysRolePermission(String sysRolePermission) {
+        this.sysRolePermission = sysRolePermission;
     }
 }

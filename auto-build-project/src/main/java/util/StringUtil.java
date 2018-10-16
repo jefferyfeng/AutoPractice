@@ -26,4 +26,20 @@ public class StringUtil {
         String exceptFirstChars = s.substring(1);
         return firstChar.toUpperCase()+exceptFirstChars;
     }
+
+    /**
+     * 将包结构转为文件路径
+     * 例：com.example -> com/example
+     */
+    public static String getPathStr(String packageStr){
+        return packageStr.replace('.', '/');
+    }
+
+    /**
+     * 将文件路径转为包结构
+     * 例：com.example -> com/example
+     */
+    public static String getPackageStr(String pathStr){
+        return pathStr.replace('/', '.');
+    }
 }
