@@ -1,5 +1,7 @@
 package init;
 
+import java.util.Map;
+
 /**
  * 配置文件对应实体
  *
@@ -12,11 +14,13 @@ public class Configration {
     private String groupId;
     private String projectName;
     private String dbType;
+    private String dbName;
     //private String dbIp; 加载配置文件的时候合并为dbUrl
     private String dbUrl;
     private String username;
     private String password;
     private String baseBossDir;
+    private Map<String,String> mysqlToJavaMap;
     //模板版本
     private String templateUrl;
     //项目包名命名习惯
@@ -59,6 +63,14 @@ public class Configration {
         this.dbType = dbType;
     }
 
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
     public String getDbUrl() {
         return dbUrl;
     }
@@ -89,6 +101,14 @@ public class Configration {
 
     public void setBaseBossDir(String baseBossDir) {
         this.baseBossDir = baseBossDir;
+    }
+
+    public Map<String, String> getMysqlToJavaMap() {
+        return mysqlToJavaMap;
+    }
+
+    public void setMysqlToJavaMap(Map<String, String> mysqlToJavaMap) {
+        this.mysqlToJavaMap = mysqlToJavaMap;
     }
 
     public String getTemplateUrl() {

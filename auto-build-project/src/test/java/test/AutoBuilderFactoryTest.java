@@ -1,8 +1,10 @@
 package test;
 
 import authority.BaseDBTables;
+import db.TableModel;
 import init.ConfigReader;
 import init.Configration;
+import init.DBInfo;
 import util.FileUtil;
 import util.FreemarkerUtil;
 import util.StringUtil;
@@ -129,6 +131,21 @@ public class AutoBuilderFactoryTest {
         File modelPath = new File(modelDir);
         FileUtil.mkdirs(modelPath);
         //创建权限实体
+        String corePojoPackage = config.getGroupId() + ".core.pojo.BasePojo";
+        createPermissionModel(modelDir,config.getSysUser(),corePojoPackage);
+        createPermissionModel(modelDir,config.getSysRole(),corePojoPackage);
+        createPermissionModel(modelDir,config.getSysUserRole(),corePojoPackage);
+        createPermissionModel(modelDir,config.getSysPermission(),corePojoPackage);
+        createPermissionModel(modelDir,config.getSysRolePermission(),corePojoPackage);
 
+    }
+
+    private static void createPermissionModel(String modelDir,String modelName,String basePojoPackage){
+        TableModel tableModel = DBInfo.initTableModel(modelName);
+        Map<String,Object> dataModel = new HashMap<String,Object>();
+        dataModel.put("package",config.getGroupId()+".modules.permission."+config.getEntityPackageName());
+        dataModel.put("tableModel",tableModel);
+        dataModel.put("pojoPackage",basePojoPackage);
+        FreemarkerUtil.createFile(templateUrl,"model.ftl",modelDir+"/"+tableModel.getTableName()+".java",dataModel,null);
     }
 }

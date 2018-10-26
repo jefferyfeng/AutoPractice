@@ -1,6 +1,9 @@
 package init;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -25,7 +28,8 @@ public class ConfigReader {
             config.setProjectName(pro.getProperty("project.projectName"));
             config.setDbType(pro.getProperty("jdbc.dbType").toLowerCase());
             if("mysql".equals(config.getDbType().toLowerCase())){
-                config.setDbUrl("jdbc:mysql://"+pro.getProperty("jdbc.dbIp")+":3306/"+pro.getProperty("jdbc.database")+"?characterEncoding=UTF-8");
+                config.setDbName(pro.getProperty("jdbc.database"));
+                config.setDbUrl("jdbc:mysql://"+pro.getProperty("jdbc.dbIp")+":3306/"+config.getDbName()+"?characterEncoding=UTF-8");
             }else if("oracle".equals(config.getDbType().toLowerCase())){
                 //TODO 暂时没有oracle需求，默认使用thin方式连接xe实例
                 config.setDbUrl("jdbc:oracle:thin:@//"+pro.getProperty("jdbc.dbIp")+":1521/XE");
@@ -46,6 +50,18 @@ public class ConfigReader {
 
             //子模块部分 TODO 后续跟进
             config.setTableName(pro.getProperty("jdbc.tableName"));
+
+
+            //读取mysqlToJavaMapping配置文件
+            pro.clear();
+            pro.load(ConfigReader.class.getResourceAsStream("/config/mysqlToJavaMapping.properties"));
+            Map<String,String> mysqlToJavaMap = new HashMap<String,String>();
+            Enumeration<?> enumeration = pro.propertyNames();
+            while(enumeration.hasMoreElements()){
+                Object o = enumeration.nextElement();
+                mysqlToJavaMap.put(o.toString(),pro.getProperty(o.toString()));
+            }
+            config.setMysqlToJavaMap(mysqlToJavaMap);
         } catch (IOException e) {
             new RuntimeException("配置文件不存在！");
         }

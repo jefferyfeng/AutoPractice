@@ -1,8 +1,5 @@
 package db;
 
-import init.ConfigReader;
-import init.Configration;
-
 import java.util.List;
 
 /**
@@ -11,21 +8,39 @@ import java.util.List;
  * @author fdh
  */
 public class TableModel {
+    //数据库表名
+    private String tableNameDB;
+    //数据库表映射到程序中表名
     private String tableName;
     //表的列字段集合
     private List<ColumnModel> columnModelList;
     //表的注释
     private String Comment;
-    //去除下划线驼峰命名  首字符小写
-    private String firstLowerCaseTableName;
-    //去除下划线驼峰命名  首字符大写
-    private String baseTableName;
 
-    //配置类
-    private Configration config = ConfigReader.getConfig();
+    public TableModel() {
+    }
+
+    public TableModel(String tableNameDB, String tableName, List<ColumnModel> columnModelList, String comment) {
+        this.tableNameDB = tableNameDB;
+        this.tableName = tableName;
+        this.columnModelList = columnModelList;
+        Comment = comment;
+    }
+
+    public String getTableNameDB() {
+        return tableNameDB;
+    }
+
+    public void setTableNameDB(String tableNameDB) {
+        this.tableNameDB = tableNameDB;
+    }
 
     public String getTableName() {
-        return config.getTableName();
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     public List<ColumnModel> getColumnModelList() {
@@ -42,21 +57,5 @@ public class TableModel {
 
     public void setComment(String comment) {
         Comment = comment;
-    }
-
-    public String getFirstLowerCaseTableName() {
-        return firstLowerCaseTableName;
-    }
-
-    public void setFirstLowerCaseTableName(String firstLowerCaseTableName) {
-        this.firstLowerCaseTableName = firstLowerCaseTableName;
-    }
-
-    public String getBaseTableName() {
-        return baseTableName;
-    }
-
-    public void setBaseTableName(String baseTableName) {
-        this.baseTableName = baseTableName;
     }
 }
