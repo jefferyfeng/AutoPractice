@@ -123,29 +123,43 @@ public class AutoBuilderFactoryTest {
 
         //创建权限目录
         String permissionDir = modulesDir + "/permission";
-
-        //创建model
         System.out.println("\t\t\t\t|--创建permission : "+permissionDir);
+
+        //创建权限
+        String corePojoPackage = config.getGroupId() + ".core.pojo.BasePojo";
+        String[] permissions = {config.getSysUser(),config.getSysRole(),config.getSysUserRole(),config.getSysPermission(),config.getSysRolePermission()};
+        createPermissions(permissionDir,permissions,corePojoPackage);
+        
+
+
+    }
+
+    private static void createPermissions(String permissionDir,String[] permissions,String basePojoPackage){
+        //创建实体目录
         String modelDir = permissionDir +"/"+ StringUtil.getPathStr(config.getEntityPackageName());
         System.out.println("\t\t\t\t\t|--创建model : "+modelDir);
         File modelPath = new File(modelDir);
         FileUtil.mkdirs(modelPath);
-        //创建权限实体
-        String corePojoPackage = config.getGroupId() + ".core.pojo.BasePojo";
-        createPermissionModel(modelDir,config.getSysUser(),corePojoPackage);
-        createPermissionModel(modelDir,config.getSysRole(),corePojoPackage);
-        createPermissionModel(modelDir,config.getSysUserRole(),corePojoPackage);
-        createPermissionModel(modelDir,config.getSysPermission(),corePojoPackage);
-        createPermissionModel(modelDir,config.getSysRolePermission(),corePojoPackage);
+
+        for (String modelName : permissions) {
+            //创建实体
+            TableModel tableModel = DBInfo.initTableModel(modelName);
+            Map<String,Object> dataModel = new HashMap<String,Object>();
+            dataModel.put("package",config.getGroupId()+".modules.permission."+config.getEntityPackageName());
+            dataModel.put("tableModel",tableModel);
+            dataModel.put("pojoPackage",basePojoPackage);
+            String modelObjectDir = modelDir+"/"+tableModel.getTableName()+".java";
+            System.out.println("\t\t\t\t\t\t|--创建"+ modelName +": "+modelObjectDir);
+            FreemarkerUtil.createFile(templateUrl,"model.ftl",modelObjectDir,dataModel,null);
+        }
+
+
+        //创建dao目录
+        //FreemarkerUtil.createFile(templateUrl,"dao.ftl",daoDir);
 
     }
 
-    private static void createPermissionModel(String modelDir,String modelName,String basePojoPackage){
-        TableModel tableModel = DBInfo.initTableModel(modelName);
-        Map<String,Object> dataModel = new HashMap<String,Object>();
-        dataModel.put("package",config.getGroupId()+".modules.permission."+config.getEntityPackageName());
-        dataModel.put("tableModel",tableModel);
-        dataModel.put("pojoPackage",basePojoPackage);
-        FreemarkerUtil.createFile(templateUrl,"model.ftl",modelDir+"/"+tableModel.getTableName()+".java",dataModel,null);
+    private static void createPermissionDao(String daoDir,String daoName){
+
     }
 }

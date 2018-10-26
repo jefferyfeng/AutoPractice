@@ -29,7 +29,7 @@ public class ConfigReader {
             config.setDbType(pro.getProperty("jdbc.dbType").toLowerCase());
             if("mysql".equals(config.getDbType().toLowerCase())){
                 config.setDbName(pro.getProperty("jdbc.database"));
-                config.setDbUrl("jdbc:mysql://"+pro.getProperty("jdbc.dbIp")+":3306/"+config.getDbName()+"?characterEncoding=UTF-8");
+                config.setDbUrl("jdbc:mysql://"+pro.getProperty("jdbc.dbIp")+":3306/"+config.getDbName()+"?characterEncoding=UTF-8&useSSL=false");//解决mysql ssl警告问题
             }else if("oracle".equals(config.getDbType().toLowerCase())){
                 //TODO 暂时没有oracle需求，默认使用thin方式连接xe实例
                 config.setDbUrl("jdbc:oracle:thin:@//"+pro.getProperty("jdbc.dbIp")+":1521/XE");
