@@ -5,6 +5,7 @@ import java.util.Properties;
 
 /**
  * 读取项目初始化参数
+ *
  * @author fdh
  */
 public class ConfigReader {

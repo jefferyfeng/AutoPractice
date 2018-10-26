@@ -5,6 +5,11 @@ import init.Configration;
 
 import java.util.List;
 
+/**
+ * 表实体
+ *
+ * @author fdh
+ */
 public class TableModel {
     private String tableName;
     //表的列字段集合

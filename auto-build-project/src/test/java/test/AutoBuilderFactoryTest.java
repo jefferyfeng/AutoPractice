@@ -42,8 +42,6 @@ public class AutoBuilderFactoryTest {
      * 构建项目
      */
     private static void buildProject(){
-
-
         //1. 创建根目录
         //1.1初始化项目根目录
         String projectDir = config.getBaseBossDir()+"/"+config.getProjectName();
@@ -94,6 +92,7 @@ public class AutoBuilderFactoryTest {
         FileUtil.mkdirs(corePath);
         //创建pojo目录
         String pojoPath = coreDir + "/pojo";
+        System.out.println("\t\t\t\t|--创建pojo : "+pojoPath);
         FileUtil.mkdirs(new File(pojoPath));
         //包名
         Map<String,Object> dataModel=new HashMap<String, Object>();
@@ -101,12 +100,12 @@ public class AutoBuilderFactoryTest {
 
         //创建PageParameter对象
         String paperParameterPath = pojoPath + "/PageParameter.java";
-        System.out.println("\t\t\t\t|--创建PageParameter : "+paperParameterPath);
+        System.out.println("\t\t\t\t\t|--创建PageParameter : "+paperParameterPath);
         FreemarkerUtil.createFile(templateUrl,"pageParameter.ftl",paperParameterPath,dataModel,null);
         //创建BasePojo对象
 
         String basePojoPath = pojoPath + "/BasePojo.java";
-        System.out.println("\t\t\t\t|--创建BasePojo : "+basePojoPath);
+        System.out.println("\t\t\t\t\t|--创建BasePojo : "+basePojoPath);
         FreemarkerUtil.createFile(templateUrl,"basePojo.ftl",basePojoPath,dataModel,null);
     }
 
@@ -122,6 +121,14 @@ public class AutoBuilderFactoryTest {
 
         //创建权限目录
         String permissionDir = modulesDir + "/permission";
+
+        //创建model
+        System.out.println("\t\t\t\t|--创建permission : "+permissionDir);
+        String modelDir = permissionDir +"/"+ StringUtil.getPathStr(config.getEntityPackageName());
+        System.out.println("\t\t\t\t\t|--创建model : "+modelDir);
+        File modelPath = new File(modelDir);
+        FileUtil.mkdirs(modelPath);
+        //创建权限实体
 
     }
 }

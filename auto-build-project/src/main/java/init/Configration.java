@@ -2,6 +2,7 @@ package init;
 
 /**
  * 配置文件对应实体
+ *
  * @author fdh
  */
 public class Configration {
