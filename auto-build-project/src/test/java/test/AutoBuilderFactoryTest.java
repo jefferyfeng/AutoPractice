@@ -211,6 +211,11 @@ public class AutoBuilderFactoryTest {
             String serviceImplDir = serviceDir + "/" +tableModel.getTableName() + "ServiceImpl.java";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"ServiceImpl : "+serviceImplDir);
             FreemarkerUtil.createFile(templateUrl,"serviceImpl.ftl",serviceImplDir,dataMap,null);
+
+            //创建controller实现
+            String controllerClassDir = conrollerDir + "/" +tableModel.getTableName() + "Controller.java";
+            System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Controller : "+controllerClassDir);
+            FreemarkerUtil.createFile(templateUrl,"controller.ftl",controllerClassDir,dataMap,null);
         }
     }
 }

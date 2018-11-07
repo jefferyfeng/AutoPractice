@@ -1,6 +1,7 @@
 package ${servicePackage};
 
 import ${modelPackage}.${tableModel.tableName};
+import ${daoPackage}.${tableModel.tableName}Dao;
 import java.util.List;
 import java.util.Date;
 
