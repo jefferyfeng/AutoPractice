@@ -69,6 +69,7 @@ public class AutoBuilderFactoryTest {
         //source,resource目录
         String sourceDir = srcDir + "/main/java";
         String resourcesDir = srcDir + "/main/resources";
+        String webAppDir = srcDir + "/main/webapp";
 
         //4. 创建基包
         String packageDir = sourceDir+"/"+StringUtil.getPathStr(config.getGroupId());
@@ -84,6 +85,9 @@ public class AutoBuilderFactoryTest {
 
         //7. 创建resource目录下文件
         createResourcesFiles(resourcesDir);
+
+        //8. 创建webapp目录下文件
+        createWebAppFiles(webAppDir);
 
     }
 
@@ -263,5 +267,26 @@ public class AutoBuilderFactoryTest {
         String springMvcDir = springPath + "/spring-mvc.xml";
         System.out.println("\t\t\t\t|--创建spring-mvc.xml : "+springMvcDir);
         FreemarkerUtil.createFile(templateUrl,"springmvc.ftl",springMvcDir,dataMap,null);
+    }
+
+    /**
+     * 创建webapp目录下文件
+     */
+    private static void createWebAppFiles(String webAppDir) {
+        //创建WEB-INF目录
+        String webInfoDir = webAppDir + "/WEB-INF";
+        File webInfoPath = new File(webInfoDir);
+        System.out.println("\t\t\t|--创建WEB-INF ："+ webInfoDir);
+        FileUtil.mkdirs(webInfoPath);
+
+        //创建初始index.jsp
+        String indexDir = webAppDir + "/index.jsp";
+        System.out.println("\t\t\t|--创建index.jsp ："+ indexDir);
+        FreemarkerUtil.createFile(templateUrl,"index.ftl",indexDir,null,null);
+
+        //创建web.xml
+        String webxmlDir = webInfoDir + "/web.xml";
+        System.out.println("\t\t\t\t|--创建web.xml : "+webxmlDir);
+        FreemarkerUtil.createFile(templateUrl,"web.ftl",webxmlDir,null,null);
     }
 }

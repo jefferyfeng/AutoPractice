@@ -2,6 +2,11 @@ package ${servicePackage};
 
 import ${modelPackage}.${tableModel.tableName};
 import ${daoPackage}.${tableModel.tableName}Dao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Date;
 
@@ -11,9 +16,9 @@ import java.util.Date;
  *  @author fdh
  */
 @Service
-@Transaction(propagation=Propagation.SUPPORTS,isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
-public class ${tableModel.tableName}ServiceImpl {
-    @Autowried
+@Transactional(propagation=Propagation.SUPPORTS,isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
+public class ${tableModel.tableName}ServiceImpl implements ${tableModel.tableName}Service{
+    @Autowired
     private ${tableModel.tableName}Dao ${tableModel.tableNameLowFirstChar}Dao;
 
     /**
@@ -21,20 +26,20 @@ public class ${tableModel.tableName}ServiceImpl {
      * @param ${tableModel.tableNameLowFirstChar}
      */
     @Override
-    @Transaction(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
-    void add(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
-        ${tableModel.tableNameLowFirstChar}.setCreateDate = new Date();
+    @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
+    public void add(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
+        ${tableModel.tableNameLowFirstChar}.setCreateDate(new Date());
         ${tableModel.tableNameLowFirstChar}.setIsValid(1);
         ${tableModel.tableNameLowFirstChar}Dao.insert(${tableModel.tableNameLowFirstChar});
     }
 
     /**
      * 根据主键 删除${tableModel.tableName} (逻辑删除)
-     * @param ${pkColumnModel.columnName}
+     * @param ${tableModel.tableNameLowFirstChar}
      */
     @Override
-    @Transaction(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
-    void remove(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
+    @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
+    public void remove(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
         //${tableModel.tableNameLowFirstChar}Dao.delete(${tableModel.tableNameLowFirstChar}.get${pkColumnModel.columnNameUpFirstChar}());
         ${tableModel.tableNameLowFirstChar}.setIsValid(0);
         ${tableModel.tableNameLowFirstChar}Dao.update(${tableModel.tableNameLowFirstChar});
@@ -45,8 +50,8 @@ public class ${tableModel.tableName}ServiceImpl {
      * @param ${tableModel.tableNameLowFirstChar}
      */
     @Override
-    @Transaction(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
-    void modify(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
+    @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
+    public void modify(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
         ${tableModel.tableNameLowFirstChar}Dao.update(${tableModel.tableNameLowFirstChar});
     }
 
@@ -56,7 +61,7 @@ public class ${tableModel.tableName}ServiceImpl {
      * @return ${tableModel.tableNameLowFirstChar}
      */
     @Override
-    ${tableModel.tableName} queryOne(${pkColumnModel.columnType} ${pkColumnModel.columnName}){
+    public ${tableModel.tableName} queryOne(${pkColumnModel.columnType} ${pkColumnModel.columnName}){
         return ${tableModel.tableNameLowFirstChar}Dao.queryOne(${pkColumnModel.columnName});
     }
 
@@ -65,7 +70,7 @@ public class ${tableModel.tableName}ServiceImpl {
      * @return ${tableModel.tableNameLowFirstChar}s
      */
     @Override
-    List<${tableModel.tableName}> queryAll(){
+    public List<${tableModel.tableName}> queryAll(){
         return ${tableModel.tableNameLowFirstChar}Dao.queryAll();
     }
 
@@ -75,7 +80,7 @@ public class ${tableModel.tableName}ServiceImpl {
      * @return ${tableModel.tableNameLowFirstChar}s
      */
     @Override
-    List<${tableModel.tableName}> queryByFieldsAndPage(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
+    public List<${tableModel.tableName}> queryByFieldsAndPage(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
         return ${tableModel.tableNameLowFirstChar}Dao.queryByFieldsAndPage(${tableModel.tableNameLowFirstChar});
     }
 }

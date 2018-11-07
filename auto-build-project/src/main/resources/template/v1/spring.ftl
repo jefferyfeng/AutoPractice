@@ -9,7 +9,7 @@
      					   http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!-- 扫描${config.servicePackageName} -->
-    <context:component-scan base-package="${config.groupId}.moudules.**.service" />
+    <context:component-scan base-package="${config.groupId}.modules.**.service" />
 
     <!-- 引入db.properties配置文件 -->
     <context:property-placeholder location="classpath:/config/db/db.properties" />

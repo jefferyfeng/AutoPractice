@@ -9,7 +9,7 @@
     <mvc:default-servlet-handler></mvc:default-servlet-handler>
 
     <!-- 扫描controller -->
-    <context:component-scan base-package="${config.groupId}.moudules.*.${config.controllerPackageName}"></context:component-scan>
+    <context:component-scan base-package="${config.groupId}.modules.*.${config.controllerPackageName}"></context:component-scan>
 
     <!-- 开启springmvc注解 -->
     <mvc:annotation-driven></mvc:annotation-driven>

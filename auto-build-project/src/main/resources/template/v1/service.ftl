@@ -17,9 +17,9 @@ public interface ${tableModel.tableName}Service {
 
     /**
      * 根据主键 删除${tableModel.tableName}
-     * @param ${pkColumnModel.columnName}
+     * @param ${tableModel.tableNameLowFirstChar}
      */
-    void remove(${pkColumnModel.columnType} ${pkColumnModel.columnName});
+    void remove(${tableModel.tableName} ${tableModel.tableNameLowFirstChar});
 
     /**
      * 修改${tableModel.tableName}
