@@ -198,11 +198,19 @@ public class AutoBuilderFactoryTest {
             String daoInterfaceDir = daoDir + "/" + tableModel.getTableName() + "Dao.java";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Dao : "+daoInterfaceDir);
             FreemarkerUtil.createFile(templateUrl,"dao.ftl",daoInterfaceDir,dataMap,null);
-
             //创建mapper实现
             String mapperImplDir = mapperDir + "/" + tableModel.getTableName() + "Mapper.xml";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Mapper : "+mapperImplDir);
             FreemarkerUtil.createFile(templateUrl,"mapper.ftl",mapperImplDir,dataMap,null);
+
+            //创建service接口
+            String serviceInterfaceDir = serviceDir + "/" + tableModel.getTableName() + "Service.java";
+            System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Service : "+serviceInterfaceDir);
+            FreemarkerUtil.createFile(templateUrl,"service.ftl",serviceInterfaceDir,dataMap,null);
+            //创建service实现
+            String serviceImplDir = serviceDir + "/" +tableModel.getTableName() + "ServiceImpl.java";
+            System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"ServiceImpl : "+serviceImplDir);
+            FreemarkerUtil.createFile(templateUrl,"serviceImpl.ftl",serviceImplDir,dataMap,null);
         }
     }
 }

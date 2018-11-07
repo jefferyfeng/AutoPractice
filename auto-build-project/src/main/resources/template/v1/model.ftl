@@ -21,7 +21,7 @@ public class ${tableModel.tableName} extends BasePojo{
         return ${columnModel.columnName};
     }
 
-    public void set ${columnModel.columnNameUpFirstChar}(${columnModel.columnType} ${columnModel.columnName}) {
+    public void set${columnModel.columnNameUpFirstChar}(${columnModel.columnType} ${columnModel.columnName}) {
         this.${columnModel.columnName} = ${columnModel.columnName};
     }
 
