@@ -1,9 +1,9 @@
-package ${package};
+package ${modelPackage};
 
 import ${pojoPackage};
 
 /**
- *  ${tableModel.tableName}<#if tableModel.comment??>${tableModel.comment}</#if>
+ *  ${tableModel.tableName}  <#if tableModel.comment??>${tableModel.comment}</#if>
  *
  *  @author fdh
  */

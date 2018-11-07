@@ -39,6 +39,7 @@ public class ConfigReader {
             config.setBaseBossDir(pro.getProperty("base.boss.dir"));
             config.setEntityPackageName(pro.getProperty("package.entity"));
             config.setDaoPackageName(pro.getProperty("package.dao"));
+            config.setMapperPackageName(pro.getProperty("package.mapper"));
             config.setServicePackageName(pro.getProperty("package.service"));
             config.setControllerPackageName(pro.getProperty("package.controller"));
             //shiro表名

@@ -12,6 +12,7 @@ public class TableModel {
     private String tableNameDB;
     //数据库表映射到程序中表名
     private String tableName;
+    private String tableNameLowFirstChar;
     //表的列字段集合
     private List<ColumnModel> columnModelList;
     //表的注释
@@ -20,9 +21,10 @@ public class TableModel {
     public TableModel() {
     }
 
-    public TableModel(String tableNameDB, String tableName, List<ColumnModel> columnModelList, String comment) {
+    public TableModel(String tableNameDB, String tableName, String tableNameLowFirstChar, List<ColumnModel> columnModelList, String comment) {
         this.tableNameDB = tableNameDB;
         this.tableName = tableName;
+        this.tableNameLowFirstChar = tableNameLowFirstChar;
         this.columnModelList = columnModelList;
         Comment = comment;
     }
@@ -41,6 +43,14 @@ public class TableModel {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+    }
+
+    public String getTableNameLowFirstChar() {
+        return tableNameLowFirstChar;
+    }
+
+    public void setTableNameLowFirstChar(String tableNameLowFirstChar) {
+        this.tableNameLowFirstChar = tableNameLowFirstChar;
     }
 
     public List<ColumnModel> getColumnModelList() {

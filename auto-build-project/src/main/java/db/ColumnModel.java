@@ -15,17 +15,20 @@ public class ColumnModel {
     private String columnType;
     /**注释*/
     private String columnComment;
+    /**是否是主键*/
+    private boolean isPrimaryKey;
 
     public ColumnModel() {
     }
 
-    public ColumnModel(String columnDBName, String columnName, String columnNameUpFirstChar, String columnDBType, String columnType, String columnComment) {
+    public ColumnModel(String columnDBName, String columnName, String columnNameUpFirstChar, String columnDBType, String columnType, String columnComment, boolean isPrimaryKey) {
         this.columnDBName = columnDBName;
         this.columnName = columnName;
         this.columnNameUpFirstChar = columnNameUpFirstChar;
         this.columnDBType = columnDBType;
         this.columnType = columnType;
         this.columnComment = columnComment;
+        this.isPrimaryKey = isPrimaryKey;
     }
 
     public String getColumnDBName() {
@@ -74,5 +77,13 @@ public class ColumnModel {
 
     public void setColumnComment(String columnComment) {
         this.columnComment = columnComment;
+    }
+
+    public boolean getIsPrimaryKey() {
+        return isPrimaryKey;
+    }
+
+    public void setIsPrimaryKey(boolean isPrimaryKey) {
+        isPrimaryKey = isPrimaryKey;
     }
 }

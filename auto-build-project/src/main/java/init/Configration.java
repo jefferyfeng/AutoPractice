@@ -26,6 +26,7 @@ public class Configration {
     //项目包名命名习惯
     private String entityPackageName;
     private String daoPackageName;
+    private String mapperPackageName;
     private String servicePackageName;
     private String controllerPackageName;
     //shiro基础表
@@ -133,6 +134,14 @@ public class Configration {
 
     public void setDaoPackageName(String daoPackageName) {
         this.daoPackageName = daoPackageName;
+    }
+
+    public String getMapperPackageName() {
+        return mapperPackageName;
+    }
+
+    public void setMapperPackageName(String mapperPackageName) {
+        this.mapperPackageName = mapperPackageName;
     }
 
     public String getServicePackageName() {

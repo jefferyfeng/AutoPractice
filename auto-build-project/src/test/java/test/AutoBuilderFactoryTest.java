@@ -1,6 +1,7 @@
 package test;
 
 import authority.BaseDBTables;
+import db.ColumnModel;
 import db.TableModel;
 import init.ConfigReader;
 import init.Configration;
@@ -135,31 +136,73 @@ public class AutoBuilderFactoryTest {
     }
 
     private static void createPermissions(String permissionDir,String[] permissions,String basePojoPackage){
-        //创建实体目录
-        String modelDir = permissionDir +"/"+ StringUtil.getPathStr(config.getEntityPackageName());
+        //创建model目录
+        String modelDir = permissionDir +"/" + StringUtil.getPathStr(config.getEntityPackageName());
         System.out.println("\t\t\t\t\t|--创建model : "+modelDir);
         File modelPath = new File(modelDir);
         FileUtil.mkdirs(modelPath);
 
-        for (String modelName : permissions) {
-            //创建实体
-            TableModel tableModel = DBInfo.initTableModel(modelName);
-            Map<String,Object> dataModel = new HashMap<String,Object>();
-            dataModel.put("package",config.getGroupId()+".modules.permission."+config.getEntityPackageName());
-            dataModel.put("tableModel",tableModel);
-            dataModel.put("pojoPackage",basePojoPackage);
-            String modelObjectDir = modelDir+"/"+tableModel.getTableName()+".java";
-            System.out.println("\t\t\t\t\t\t|--创建"+ modelName +": "+modelObjectDir);
-            FreemarkerUtil.createFile(templateUrl,"model.ftl",modelObjectDir,dataModel,null);
-        }
-
-
         //创建dao目录
-        //FreemarkerUtil.createFile(templateUrl,"dao.ftl",daoDir);
+        String daoDir = permissionDir + "/" + StringUtil.getPathStr(config.getDaoPackageName());
+        System.out.println("\t\t\t\t\t|--创建dao : "+daoDir);
+        File daoPath = new File(daoDir);
+        FileUtil.mkdirs(daoPath);
 
-    }
+        //创建mapper目录
+        String mapperDir = permissionDir + "/" + StringUtil.getPathStr(config.getMapperPackageName());
+        System.out.println("\t\t\t\t\t|--创建mapper : "+mapperDir);
+        File mapperPath = new File(mapperDir);
+        FileUtil.mkdirs(mapperPath);
 
-    private static void createPermissionDao(String daoDir,String daoName){
+        //创建service目录
+        String serviceDir = permissionDir + "/" + StringUtil.getPathStr(config.getServicePackageName());
+        System.out.println("\t\t\t\t\t|--创建service : "+serviceDir);
+        File servicePath = new File(serviceDir);
+        FileUtil.mkdirs(servicePath);
 
+        //创建controller目录
+        String conrollerDir = permissionDir + "/" + StringUtil.getPathStr(config.getControllerPackageName());
+        System.out.println("\t\t\t\t\t|--创建controller : "+conrollerDir);
+        File controllerPath = new File(conrollerDir);
+        FileUtil.mkdirs(controllerPath);
+
+        String permissionPackage = config.getGroupId()+".modules.permission.";
+        for (String modelName : permissions) {
+            //获取表信息和字段信息
+
+            TableModel tableModel = DBInfo.initTableModel(modelName);
+
+            Map<String,Object> dataMap = new HashMap<String,Object>();
+            dataMap.put("modelPackage",permissionPackage+config.getEntityPackageName());
+            dataMap.put("daoPackage",permissionPackage+config.getDaoPackageName());
+            dataMap.put("mapperPackage",permissionPackage+config.getMapperPackageName());
+            dataMap.put("servicePackage",permissionPackage+config.getServicePackageName());
+            dataMap.put("controllerPackage",permissionPackage+config.getControllerPackageName());
+            dataMap.put("tableModel",tableModel);
+            dataMap.put("pojoPackage",basePojoPackage);
+            dataMap.put("config",config);
+
+            //获取主键列
+            for (ColumnModel columnModel : tableModel.getColumnModelList()) {
+                if(columnModel.getIsPrimaryKey()){
+                    dataMap.put("pkColumnModel",columnModel);
+                }
+            }
+
+            //创建实体对象
+            String modelObjectDir = modelDir + "/" + tableModel.getTableName() + ".java";
+            System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +": "+modelObjectDir);
+            FreemarkerUtil.createFile(templateUrl,"model.ftl",modelObjectDir,dataMap,null);
+
+            //创建dao接口
+            String daoInterfaceDir = daoDir + "/" + tableModel.getTableName() + "Dao.java";
+            System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Dao : "+daoInterfaceDir);
+            FreemarkerUtil.createFile(templateUrl,"dao.ftl",daoInterfaceDir,dataMap,null);
+
+            //创建mapper实现
+            String mapperImplDir = mapperDir + "/" + tableModel.getTableName() + "Mapper.xml";
+            System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Mapper : "+mapperImplDir);
+            FreemarkerUtil.createFile(templateUrl,"mapper.ftl",mapperImplDir,dataMap,null);
+        }
     }
 }

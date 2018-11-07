@@ -30,6 +30,7 @@ public class DBInfo {
                 String tableComment = rs.getString("TABLE_COMMENT");
                 tableModel.setTableNameDB(tableName);
                 tableModel.setTableName(StringUtil.noUnderLineAndUpFirstChar(tableName));
+                tableModel.setTableNameLowFirstChar(StringUtil.noUnderLineAndLowFirstChar(tableName));
                 tableModel.setComment(tableComment);
             }
         } catch (SQLException e) {
@@ -50,7 +51,8 @@ public class DBInfo {
                 String columnName = res.getString("COLUMN_NAME");
                 String dataType = res.getString("DATA_TYPE");
                 String columnComment = res.getString("COLUMN_COMMENT");
-                ColumnModel columnModel = new ColumnModel(columnName, StringUtil.noUnderLineAndLowFirstChar(columnName),StringUtil.noUnderLineAndUpFirstChar(columnName),dataType,conf.getMysqlToJavaMap().get(dataType),columnComment);
+                boolean isPrimaryKey = "PRI".equals(res.getString("COLUMN_KEY"));
+                ColumnModel columnModel = new ColumnModel(columnName, StringUtil.noUnderLineAndLowFirstChar(columnName),StringUtil.noUnderLineAndUpFirstChar(columnName),dataType,conf.getMysqlToJavaMap().get(dataType),columnComment,isPrimaryKey);
                 columnModels.add(columnModel);
             }
             tableModel.setColumnModelList(columnModels);
