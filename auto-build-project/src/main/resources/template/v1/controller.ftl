@@ -12,7 +12,7 @@ import java.util.List;
  *
  *  @author fdh
  */
-@RequestMapping("/permission")
+@RequestMapping("/${tableModel.tableNameLowFirstChar}")
 @RestController
 public class ${tableModel.tableName}Controller {
     @Autowired
@@ -58,7 +58,7 @@ public class ${tableModel.tableName}Controller {
      * 查全部${tableModel.tableName}
      * @return ${tableModel.tableNameLowFirstChar}s
      */
-    @RequestMapping(value="/queryAll}",method=RequestMethod.GET)
+    @RequestMapping(value="/queryAll",method=RequestMethod.GET)
     public List<${tableModel.tableName}> queryAll(){
         return ${tableModel.tableNameLowFirstChar}Service.queryAll();
     }
@@ -68,7 +68,7 @@ public class ${tableModel.tableName}Controller {
      * @param ${tableModel.tableNameLowFirstChar}
      * @return ${tableModel.tableNameLowFirstChar}s
      */
-    @RequestMapping(value="/queryByFieldsAndPage}",method=RequestMethod.GET)
+    @RequestMapping(value="/queryByFieldsAndPage",method=RequestMethod.GET)
     public List<${tableModel.tableName}> queryByFieldsAndPage(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
         return ${tableModel.tableNameLowFirstChar}Service.queryByFieldsAndPage(${tableModel.tableNameLowFirstChar});
     }

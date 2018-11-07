@@ -234,9 +234,9 @@ public class AutoBuilderFactoryTest {
 
         Map<String,Object> dataMap = new HashMap<String,Object>();
         dataMap.put("config",config);
-        dataMap.put("typeAliasesPackage",StringUtil.getPathStr(config.getGroupId())+".modules.*."+config.getEntityPackageName());
-        dataMap.put("mapperLocations",StringUtil.getPathStr(config.getGroupId())+"/modules/*/"+config.getMapperPackageName()+"/*.xml");
-        dataMap.put("basePackage",StringUtil.getPathStr(config.getGroupId())+".modules.*."+config.getDaoPackageName());
+        dataMap.put("typeAliasesPackage",config.getGroupId()+".modules.**."+config.getEntityPackageName());
+        dataMap.put("mapperLocations","classpath:/" + StringUtil.getPathStr(config.getGroupId())+"/modules/**/"+config.getMapperPackageName()+"/*.xml");
+        dataMap.put("basePackage",config.getGroupId()+".modules.**."+config.getDaoPackageName());
 
         //创建config目录下文件
         String configDir = resourcesDir + "/config";
