@@ -82,6 +82,9 @@ public class AutoBuilderFactoryTest {
         //6. 创建modules目录下文件
         createModulesFiles(packageDir);
 
+        //7. 创建resource目录下文件
+        createResourcesFiles(resourcesDir);
+
     }
 
     /**
@@ -217,5 +220,48 @@ public class AutoBuilderFactoryTest {
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Controller : "+controllerClassDir);
             FreemarkerUtil.createFile(templateUrl,"controller.ftl",controllerClassDir,dataMap,null);
         }
+    }
+
+
+    /**
+     * 创建resources目录下文件
+     */
+    private static void createResourcesFiles(String resourcesDir){
+
+        Map<String,Object> dataMap = new HashMap<String,Object>();
+        dataMap.put("config",config);
+        dataMap.put("typeAliasesPackage",StringUtil.getPathStr(config.getGroupId())+".modules.*."+config.getEntityPackageName());
+        dataMap.put("mapperLocations",StringUtil.getPathStr(config.getGroupId())+"/modules/*/"+config.getMapperPackageName()+"/*.xml");
+        dataMap.put("basePackage",StringUtil.getPathStr(config.getGroupId())+".modules.*."+config.getDaoPackageName());
+
+        //创建config目录下文件
+        String configDir = resourcesDir + "/config";
+        File configPath = new File(configDir);
+        System.out.println("\t\t|--创建config ："+ configPath);
+        FileUtil.mkdirs(configPath);
+
+        //创建db目录下文件
+        String dbDir = configDir + "/db";
+        File dbPath = new File(dbDir);
+        System.out.println("\t\t\t|--创建db ："+ dbPath);
+        FileUtil.mkdirs(dbPath);
+        //创建db.properties
+        String dbPropertiesDir = dbPath + "/db.properties";
+        System.out.println("\t\t\t\t|--创建db.properties ："+ dbPropertiesDir);
+        FreemarkerUtil.createFile(templateUrl,"db.ftl",dbPropertiesDir,dataMap,null);
+
+        //创建spring目录下文件
+        String springDir = configDir + "/spring";
+        File springPath = new File(springDir);
+        System.out.println("\t\t\t|--创建spring ："+ springPath);
+        FileUtil.mkdirs(springPath);
+        //创建spring.xml
+        String applicationContextDir = springPath + "/spring.xml";
+        System.out.println("\t\t\t\t|--创建spring.xml : "+applicationContextDir);
+        FreemarkerUtil.createFile(templateUrl,"spring.ftl",applicationContextDir,dataMap,null);
+        //创建spring-mvc.xml
+        String springMvcDir = springPath + "/spring-mvc.xml";
+        System.out.println("\t\t\t\t|--创建spring-mvc.xml : "+springMvcDir);
+        FreemarkerUtil.createFile(templateUrl,"springmvc.ftl",springMvcDir,dataMap,null);
     }
 }

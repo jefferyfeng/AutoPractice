@@ -7,13 +7,13 @@
     <!--插入字段集合-->
     <sql id="Base_Column_List">
         <#list tableModel.columnModelList as columnModel>
-            ${columnModel.columnDBName}<#if columnModel_has_next>, </#if>
+        ${columnModel.columnDBName}<#if columnModel_has_next>, </#if>
         </#list>
     </sql>
     <!--查询字段集合-->
     <sql id="Base_Column_List_AsType">
         <#list tableModel.columnModelList as columnModel>
-            ${columnModel.columnDBName} as ${columnModel.columnName}<#if columnModel_has_next>, </#if>
+        ${columnModel.columnDBName} as ${columnModel.columnName}<#if columnModel_has_next>, </#if>
         </#list>
     </sql>
 
