@@ -279,6 +279,14 @@ public class AutoBuilderFactoryTest {
         System.out.println("\t\t\t|--创建WEB-INF ："+ webInfoDir);
         FileUtil.mkdirs(webInfoPath);
 
+        //引入layui组件
+        String path = config.getTemplateUrl().substring(1)+ "/static";
+        File sourcePath = new File(FileUtil.getResourcesFilePath(path));
+        String staticPath = webAppDir + "/static";
+        File targetPath = new File(staticPath);
+        FileUtil.copyDirectory(sourcePath,targetPath);
+        System.out.println("\t\t\t|--创建静态资源 ："+ staticPath);
+
         //创建初始index.jsp
         String indexDir = webAppDir + "/index.jsp";
         System.out.println("\t\t\t|--创建index.jsp ："+ indexDir);

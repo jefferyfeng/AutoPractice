@@ -191,5 +191,20 @@
 
     <build>
         <finalName>${projectName}</finalName>
+        <!--编译时增加xml文件-->
+        <!-- 用来解决mapper写在source目录下的问题 -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 </project>
