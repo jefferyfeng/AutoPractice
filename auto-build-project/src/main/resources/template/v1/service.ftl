@@ -41,7 +41,7 @@ public interface ${tableModel.tableName}Service {
     List<${tableModel.tableName}> queryAll();
 
     /**
-     * 根据字段查询（如需分页请setPageParameter）
+     * 根据字段查询（如需分页请setPageBean）
      * @param ${tableModel.tableNameLowFirstChar}
      * @return ${tableModel.tableNameLowFirstChar}s
      */

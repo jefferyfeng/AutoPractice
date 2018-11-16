@@ -108,10 +108,10 @@ public class AutoBuilderFactoryTest {
         Map<String,Object> dataModel=new HashMap<String, Object>();
         dataModel.put("pojoPackage",config.getGroupId()+".core.pojo");
 
-        //创建PageParameter对象
-        String paperParameterPath = pojoPath + "/PageParameter.java";
-        System.out.println("\t\t\t\t\t|--创建PageParameter : "+paperParameterPath);
-        FreemarkerUtil.createFile(templateUrl,"pageParameter.ftl",paperParameterPath,dataModel,null);
+        //创建PageBean对象
+        String paperBeanPath = pojoPath + "/PageBean.java";
+        System.out.println("\t\t\t\t\t|--创建PageBean : "+paperBeanPath);
+        FreemarkerUtil.createFile(templateUrl,"pageBean.ftl",paperBeanPath,dataModel,null);
         //创建BasePojo对象
 
         String basePojoPath = pojoPath + "/BasePojo.java";

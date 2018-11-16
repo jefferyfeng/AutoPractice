@@ -102,7 +102,7 @@
         </if>
         </#list>
         <if test="${tableModel.tableName} != null">
-            limit ${"#"}{pageParameter.limitOffset} , ${"#"}{pageParameter.pageSize}
+            limit ${"#"}{pageBean.limitOffset} , ${"#"}{pageBean.pageSize}
         </if>
     </select>
 

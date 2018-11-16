@@ -15,25 +15,14 @@ public class BasePojo implements java.io.Serializable{
 	/**
 	 * 分页类
 	 */
-	private PageParameter pageParameter;
+	private PageBean pageBean;
 
-	/**
-	 * 获取分页参数类
-	 * @return PageParameter
-	 */
-	public PageParameter getPageParameter() {
-		if (pageParameter == null) {
-			pageParameter = new PageParameter();
-		}
-		return pageParameter;
+	public PageBean getPageBean() {
+		return (pageBean==null ? new PageBean() : pageBean);
 	}
 
-	/**
-	 * 设置分页参数类
-	 * @param pageParameter
-	 */
-	public void setPageParameter(PageParameter pageParameter) {
-		this.pageParameter = pageParameter;
+	public void setPageBean(PageBean pageBean) {
+		this.pageBean = pageBean;
 	}
 
 }
