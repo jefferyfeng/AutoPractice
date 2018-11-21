@@ -130,20 +130,20 @@ public class AutoBuilderFactoryTest {
         System.out.println("\t\t\t\t\t|--创建Order : "+orderPath);
         FreemarkerUtil.createFile(templateUrl,"order.ftl",orderPath,dataModel,null);
         //创建searchHelper对象
-        String searchHelperPath = basePath + "/searchHelper.ftl";
+        String searchHelperPath = basePath + "/SearchHelper.java";
         System.out.println("\t\t\t\t\t|--创建SearchHelper : "+searchHelperPath);
-        FreemarkerUtil.createFile(templateUrl,"searchHelper.ftl",orderPath,dataModel,null);
+        FreemarkerUtil.createFile(templateUrl,"searchHelper.ftl",searchHelperPath,dataModel,null);
 
-        //创建base目录
+        //创建constants目录
         String constantsPath = coreDir + "/constants";
         System.out.println("\t\t\t\t|--创建constants : "+constantsPath);
-        FileUtil.mkdirs(new File(basePath));
+        FileUtil.mkdirs(new File(constantsPath));
         //创建Direction枚举
-        String directionPath = basePath + "/Direction.java";
+        String directionPath = constantsPath + "/Direction.java";
         System.out.println("\t\t\t\t\t|--创建Direction : "+directionPath);
-        FreemarkerUtil.createFile(templateUrl,"searchHelper.ftl",orderPath,dataModel,null);
+        FreemarkerUtil.createFile(templateUrl,"direction.ftl",directionPath,dataModel,null);
         //创建Operator枚举
-        String operatorPath = basePath + "/Operator.java";
+        String operatorPath = constantsPath + "/Operator.java";
         System.out.println("\t\t\t\t\t|--创建SearchHelper : "+operatorPath);
         FreemarkerUtil.createFile(templateUrl,"operator.ftl",operatorPath,dataModel,null);
 
