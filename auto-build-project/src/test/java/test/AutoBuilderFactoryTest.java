@@ -100,23 +100,53 @@ public class AutoBuilderFactoryTest {
         System.out.println("\t\t\t|--创建core ："+ coreDir);
         File corePath = new File(coreDir);
         FileUtil.mkdirs(corePath);
-        //创建pojo目录
-        String pojoPath = coreDir + "/pojo";
-        System.out.println("\t\t\t\t|--创建pojo : "+pojoPath);
-        FileUtil.mkdirs(new File(pojoPath));
+
+        //创建base目录
+        String basePath = coreDir + "/base";
+        System.out.println("\t\t\t\t|--创建base : "+basePath);
+        FileUtil.mkdirs(new File(basePath));
         //包名
         Map<String,Object> dataModel=new HashMap<String, Object>();
-        dataModel.put("pojoPackage",config.getGroupId()+".core.pojo");
-
+        dataModel.put("basePackage",config.getGroupId()+".core.base");
+        dataModel.put("constantsPackage",config.getGroupId()+".core.constants");
+        dataModel.put("directionPackage",config.getGroupId()+".core.constants.Direction");
+        dataModel.put("operatorPackage",config.getGroupId()+".core.constants.Operator");
         //创建PageBean对象
-        String paperBeanPath = pojoPath + "/PageBean.java";
+        String paperBeanPath = basePath + "/PageBean.java";
         System.out.println("\t\t\t\t\t|--创建PageBean : "+paperBeanPath);
         FreemarkerUtil.createFile(templateUrl,"pageBean.ftl",paperBeanPath,dataModel,null);
         //创建BasePojo对象
-
-        String basePojoPath = pojoPath + "/BasePojo.java";
+        String basePojoPath = basePath + "/BasePojo.java";
         System.out.println("\t\t\t\t\t|--创建BasePojo : "+basePojoPath);
         FreemarkerUtil.createFile(templateUrl,"basePojo.ftl",basePojoPath,dataModel,null);
+        //创建BaseResult对象
+        String baseResultPath = basePath +"/BaseResult.java";
+        System.out.println("\t\t\t\t\t|--创建BaseResult : "+baseResultPath);
+        FreemarkerUtil.createFile(templateUrl,"baseResult.ftl",baseResultPath,dataModel,null);
+        //创建BaseController
+//        String baseControllerPath = basePath +"/BaseController.java";
+        //创建Order对象
+        String orderPath = basePath + "/Order.java";
+        System.out.println("\t\t\t\t\t|--创建Order : "+orderPath);
+        FreemarkerUtil.createFile(templateUrl,"order.ftl",orderPath,dataModel,null);
+        //创建searchHelper对象
+        String searchHelperPath = basePath + "/searchHelper.ftl";
+        System.out.println("\t\t\t\t\t|--创建SearchHelper : "+searchHelperPath);
+        FreemarkerUtil.createFile(templateUrl,"searchHelper.ftl",orderPath,dataModel,null);
+
+        //创建base目录
+        String constantsPath = coreDir + "/constants";
+        System.out.println("\t\t\t\t|--创建constants : "+constantsPath);
+        FileUtil.mkdirs(new File(basePath));
+        //创建Direction枚举
+        String directionPath = basePath + "/Direction.java";
+        System.out.println("\t\t\t\t\t|--创建Direction : "+directionPath);
+        FreemarkerUtil.createFile(templateUrl,"searchHelper.ftl",orderPath,dataModel,null);
+        //创建Operator枚举
+        String operatorPath = basePath + "/Operator.java";
+        System.out.println("\t\t\t\t\t|--创建SearchHelper : "+operatorPath);
+        FreemarkerUtil.createFile(templateUrl,"operator.ftl",operatorPath,dataModel,null);
+
     }
 
     /**

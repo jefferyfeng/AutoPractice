@@ -1,4 +1,4 @@
-package ${pojoPackage};
+package ${basePackage};
 
 /**
  * 基础类，所有pojo都要继承

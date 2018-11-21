@@ -1,4 +1,4 @@
-package ${pojoPackage};
+package ${basePackage};
 
 import java.io.Serializable;
 
