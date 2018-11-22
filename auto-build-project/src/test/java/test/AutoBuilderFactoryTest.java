@@ -175,15 +175,15 @@ public class AutoBuilderFactoryTest {
         System.out.println("\t\t\t\t|--创建permission : "+permissionDir);
 
         //创建权限
-        String corePojoPackage = config.getGroupId() + ".core.pojo.BasePojo";
+        String basePackage = config.getGroupId() + ".core.base";
         String[] permissions = {config.getSysUser(),config.getSysRole(),config.getSysUserRole(),config.getSysPermission(),config.getSysRolePermission()};
-        createPermissions(permissionDir,permissions,corePojoPackage);
+        createPermissions(permissionDir,permissions,basePackage);
         
 
 
     }
 
-    private static void createPermissions(String permissionDir,String[] permissions,String basePojoPackage){
+    private static void createPermissions(String permissionDir,String[] permissions,String basePackage){
         //创建model目录
         String modelDir = permissionDir +"/" + StringUtil.getPathStr(config.getEntityPackageName());
         System.out.println("\t\t\t\t\t|--创建model : "+modelDir);
@@ -227,7 +227,7 @@ public class AutoBuilderFactoryTest {
             dataMap.put("servicePackage",permissionPackage+config.getServicePackageName());
             dataMap.put("controllerPackage",permissionPackage+config.getControllerPackageName());
             dataMap.put("tableModel",tableModel);
-            dataMap.put("pojoPackage",basePojoPackage);
+            dataMap.put("basePackage",basePackage);
             dataMap.put("config",config);
 
             //获取主键列
