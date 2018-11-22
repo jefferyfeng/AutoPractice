@@ -76,6 +76,10 @@ public class AutoBuilderFactoryTest {
         File packagePath = new File(packageDir);
         System.out.println("\t\t|--创建package ："+ packagePath);
         FileUtil.mkdirs(packagePath);
+        //创建resource目录
+        File resourcesFile = new File(resourcesDir);
+        System.out.println("\t\t|--创建resource ："+ resourcesFile);
+        FileUtil.mkdirs(resourcesFile);
 
         //5. 创建core目录下文件
         createCoreFiles(packageDir);
@@ -278,6 +282,11 @@ public class AutoBuilderFactoryTest {
         dataMap.put("typeAliasesPackage",config.getGroupId()+".modules.**."+config.getEntityPackageName());
         dataMap.put("mapperLocations","classpath:/" + StringUtil.getPathStr(config.getGroupId())+"/modules/**/"+config.getMapperPackageName()+"/*.xml");
         dataMap.put("basePackage",config.getGroupId()+".modules.**."+config.getDaoPackageName());
+
+        //logback配置文件
+        String logbackDir = resourcesDir + "/logback.xml";
+        System.out.println("\t\t\t|--创建logback.xml ："+ logbackDir);
+        FreemarkerUtil.createFile(templateUrl,"logback.ftl",logbackDir,dataMap,null);
 
         //创建config目录下文件
         String configDir = resourcesDir + "/config";
