@@ -1,6 +1,6 @@
 package ${basePackage};
 
-import ${directionPackage};
+import ${constantsPackage}.Direction;
 
 public class Order {
     /** 属性名 */

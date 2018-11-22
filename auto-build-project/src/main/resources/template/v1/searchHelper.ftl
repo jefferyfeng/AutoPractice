@@ -1,6 +1,6 @@
 package ${basePackage};
 
-import ${operatorPackage};
+import ${constantsPackage}.Operator;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;

@@ -109,8 +109,7 @@ public class AutoBuilderFactoryTest {
         Map<String,Object> dataModel=new HashMap<String, Object>();
         dataModel.put("basePackage",config.getGroupId()+".core.base");
         dataModel.put("constantsPackage",config.getGroupId()+".core.constants");
-        dataModel.put("directionPackage",config.getGroupId()+".core.constants.Direction");
-        dataModel.put("operatorPackage",config.getGroupId()+".core.constants.Operator");
+        dataModel.put("utilPackage",config.getGroupId()+".core.util");
         //创建PageBean对象
         String paperBeanPath = basePath + "/PageBean.java";
         System.out.println("\t\t\t\t\t|--创建PageBean : "+paperBeanPath);
@@ -146,7 +145,19 @@ public class AutoBuilderFactoryTest {
         String operatorPath = constantsPath + "/Operator.java";
         System.out.println("\t\t\t\t\t|--创建SearchHelper : "+operatorPath);
         FreemarkerUtil.createFile(templateUrl,"operator.ftl",operatorPath,dataModel,null);
+        //创建ResultConstants
+        String resultConstantsPath = constantsPath + "/ResultConstants.java";
+        System.out.println("\t\t\t\t\t|--创建ResultConstants : "+resultConstantsPath);
+        FreemarkerUtil.createFile(templateUrl,"resultConstants.ftl",resultConstantsPath,dataModel,null);
 
+        //创建util目录
+        String utilPath = coreDir + "/util";
+        System.out.println("\t\t\t\t|--创建util : "+utilPath);
+        FileUtil.mkdirs(new File(utilPath));
+        //创建ResultUtil
+        String resultUtilPath = utilPath + "/ResultUtil.java";
+        System.out.println("\t\t\t\t\t|--创建ResultUtil : "+resultUtilPath);
+        FreemarkerUtil.createFile(templateUrl,"resultUtil.ftl",resultUtilPath,dataModel,null);
     }
 
     /**
