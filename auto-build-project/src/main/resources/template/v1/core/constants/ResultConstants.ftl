@@ -6,7 +6,8 @@ package ${constantsPackage};
  */
 public enum ResultConstants {
     FAILED(0,"失败"),
-    SUCCESS(1,"成功");
+    SUCCESS(1,"成功"),
+    EXCEPTION(9,"异常");
 
     private int code;
     private String msg;
