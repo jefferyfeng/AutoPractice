@@ -59,7 +59,7 @@ public class AutoBuilderFactoryTest {
         Map<String,Object> dataModel=new HashMap<String, Object>();
         dataModel.put("groupId",config.getGroupId());
         dataModel.put("projectName",config.getProjectName());
-        FreemarkerUtil.createFile(templateUrl,"pom.ftl",pomPath,dataModel,null);
+        FreemarkerUtil.createFile(templateUrl+"/pom","pom.ftl",pomPath,dataModel,null);
 
         //3. 创建src目录
         String srcDir = projectDir+"/src";
@@ -114,54 +114,24 @@ public class AutoBuilderFactoryTest {
         dataModel.put("basePackage",config.getGroupId()+".core.base");
         dataModel.put("constantsPackage",config.getGroupId()+".core.constants");
         dataModel.put("utilPackage",config.getGroupId()+".core.util");
-        //创建PageBean对象
-        String paperBeanPath = basePath + "/PageBean.java";
-        System.out.println("\t\t\t\t\t|--创建PageBean : "+paperBeanPath);
-        FreemarkerUtil.createFile(templateUrl,"pageBean.ftl",paperBeanPath,dataModel,null);
-        //创建BasePojo对象
-        String basePojoPath = basePath + "/BasePojo.java";
-        System.out.println("\t\t\t\t\t|--创建BasePojo : "+basePojoPath);
-        FreemarkerUtil.createFile(templateUrl,"basePojo.ftl",basePojoPath,dataModel,null);
-        //创建BaseResult对象
-        String baseResultPath = basePath +"/BaseResult.java";
-        System.out.println("\t\t\t\t\t|--创建BaseResult : "+baseResultPath);
-        FreemarkerUtil.createFile(templateUrl,"baseResult.ftl",baseResultPath,dataModel,null);
-        //创建BaseController
-//        String baseControllerPath = basePath +"/BaseController.java";
-        //创建Order对象
-        String orderPath = basePath + "/Order.java";
-        System.out.println("\t\t\t\t\t|--创建Order : "+orderPath);
-        FreemarkerUtil.createFile(templateUrl,"order.ftl",orderPath,dataModel,null);
-        //创建searchHelper对象
-        String searchHelperPath = basePath + "/SearchHelper.java";
-        System.out.println("\t\t\t\t\t|--创建SearchHelper : "+searchHelperPath);
-        FreemarkerUtil.createFile(templateUrl,"searchHelper.ftl",searchHelperPath,dataModel,null);
+        //创建core-base包下文件
+        createPackageFiles(basePath,"/core/base", ".java", "\t\t\t\t\t", dataModel);
+
 
         //创建constants目录
         String constantsPath = coreDir + "/constants";
         System.out.println("\t\t\t\t|--创建constants : "+constantsPath);
         FileUtil.mkdirs(new File(constantsPath));
-        //创建Direction枚举
-        String directionPath = constantsPath + "/Direction.java";
-        System.out.println("\t\t\t\t\t|--创建Direction : "+directionPath);
-        FreemarkerUtil.createFile(templateUrl,"direction.ftl",directionPath,dataModel,null);
-        //创建Operator枚举
-        String operatorPath = constantsPath + "/Operator.java";
-        System.out.println("\t\t\t\t\t|--创建SearchHelper : "+operatorPath);
-        FreemarkerUtil.createFile(templateUrl,"operator.ftl",operatorPath,dataModel,null);
-        //创建ResultConstants
-        String resultConstantsPath = constantsPath + "/ResultConstants.java";
-        System.out.println("\t\t\t\t\t|--创建ResultConstants : "+resultConstantsPath);
-        FreemarkerUtil.createFile(templateUrl,"resultConstants.ftl",resultConstantsPath,dataModel,null);
+        //创建core-constants包下文件
+        createPackageFiles(constantsPath,"/core/constants", ".java", "\t\t\t\t\t", dataModel);
+
 
         //创建util目录
         String utilPath = coreDir + "/util";
         System.out.println("\t\t\t\t|--创建util : "+utilPath);
         FileUtil.mkdirs(new File(utilPath));
-        //创建ResultUtil
-        String resultUtilPath = utilPath + "/ResultUtil.java";
-        System.out.println("\t\t\t\t\t|--创建ResultUtil : "+resultUtilPath);
-        FreemarkerUtil.createFile(templateUrl,"resultUtil.ftl",resultUtilPath,dataModel,null);
+        //创建core-util包下文件
+        createPackageFiles(utilPath,"/core/util", ".java", "\t\t\t\t\t", dataModel);
     }
 
     /**
@@ -244,30 +214,30 @@ public class AutoBuilderFactoryTest {
             //创建实体对象
             String modelObjectDir = modelDir + "/" + tableModel.getTableName() + ".java";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +": "+modelObjectDir);
-            FreemarkerUtil.createFile(templateUrl,"model.ftl",modelObjectDir,dataMap,null);
+            FreemarkerUtil.createFile(templateUrl + "/modules/model","model.ftl",modelObjectDir,dataMap,null);
 
             //创建dao接口
             String daoInterfaceDir = daoDir + "/" + tableModel.getTableName() + "Dao.java";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Dao : "+daoInterfaceDir);
-            FreemarkerUtil.createFile(templateUrl,"dao.ftl",daoInterfaceDir,dataMap,null);
+            FreemarkerUtil.createFile(templateUrl + "/modules/dao","dao.ftl",daoInterfaceDir,dataMap,null);
             //创建mapper实现
             String mapperImplDir = mapperDir + "/" + tableModel.getTableName() + "Mapper.xml";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Mapper : "+mapperImplDir);
-            FreemarkerUtil.createFile(templateUrl,"mapper.ftl",mapperImplDir,dataMap,null);
+            FreemarkerUtil.createFile(templateUrl + "/modules/mapper","mapper.ftl",mapperImplDir,dataMap,null);
 
             //创建service接口
             String serviceInterfaceDir = serviceDir + "/" + tableModel.getTableName() + "Service.java";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Service : "+serviceInterfaceDir);
-            FreemarkerUtil.createFile(templateUrl,"service.ftl",serviceInterfaceDir,dataMap,null);
+            FreemarkerUtil.createFile(templateUrl + "/modules/service","service.ftl",serviceInterfaceDir,dataMap,null);
             //创建service实现
             String serviceImplDir = serviceDir + "/" +tableModel.getTableName() + "ServiceImpl.java";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"ServiceImpl : "+serviceImplDir);
-            FreemarkerUtil.createFile(templateUrl,"serviceImpl.ftl",serviceImplDir,dataMap,null);
+            FreemarkerUtil.createFile(templateUrl + "/modules/service","serviceImpl.ftl",serviceImplDir,dataMap,null);
 
             //创建controller实现
             String controllerClassDir = conrollerDir + "/" +tableModel.getTableName() + "Controller.java";
             System.out.println("\t\t\t\t\t\t|--创建"+ tableModel.getTableName() +"Controller : "+controllerClassDir);
-            FreemarkerUtil.createFile(templateUrl,"controller.ftl",controllerClassDir,dataMap,null);
+            FreemarkerUtil.createFile(templateUrl + "/modules/controller","controller.ftl",controllerClassDir,dataMap,null);
         }
     }
 
@@ -286,7 +256,7 @@ public class AutoBuilderFactoryTest {
         //logback配置文件
         String logbackDir = resourcesDir + "/logback.xml";
         System.out.println("\t\t\t|--创建logback.xml ："+ logbackDir);
-        FreemarkerUtil.createFile(templateUrl,"logback.ftl",logbackDir,dataMap,null);
+        FreemarkerUtil.createFile(templateUrl,"resources/logback/logback.ftl",logbackDir,dataMap,null);
 
         //创建config目录下文件
         String configDir = resourcesDir + "/config";
@@ -302,7 +272,7 @@ public class AutoBuilderFactoryTest {
         //创建db.properties
         String dbPropertiesDir = dbPath + "/db.properties";
         System.out.println("\t\t\t\t|--创建db.properties ："+ dbPropertiesDir);
-        FreemarkerUtil.createFile(templateUrl,"db.ftl",dbPropertiesDir,dataMap,null);
+        FreemarkerUtil.createFile(templateUrl,"resources/db/db.ftl",dbPropertiesDir,dataMap,null);
 
         //创建spring目录下文件
         String springDir = configDir + "/spring";
@@ -312,11 +282,11 @@ public class AutoBuilderFactoryTest {
         //创建spring.xml
         String applicationContextDir = springPath + "/spring.xml";
         System.out.println("\t\t\t\t|--创建spring.xml : "+applicationContextDir);
-        FreemarkerUtil.createFile(templateUrl,"spring.ftl",applicationContextDir,dataMap,null);
+        FreemarkerUtil.createFile(templateUrl,"resources/spring/spring.ftl",applicationContextDir,dataMap,null);
         //创建spring-mvc.xml
         String springMvcDir = springPath + "/spring-mvc.xml";
         System.out.println("\t\t\t\t|--创建spring-mvc.xml : "+springMvcDir);
-        FreemarkerUtil.createFile(templateUrl,"springmvc.ftl",springMvcDir,dataMap,null);
+        FreemarkerUtil.createFile(templateUrl,"resources/spring/springmvc.ftl",springMvcDir,dataMap,null);
     }
 
     /**
@@ -330,7 +300,8 @@ public class AutoBuilderFactoryTest {
         FileUtil.mkdirs(webInfoPath);
 
         //引入layui组件
-        String path = config.getTemplateUrl().substring(1)+ "/static";
+        //String path = config.getTemplateUrl().substring(1)+ "/static";
+        String path = config.getTemplateUrl().substring(1);
         File sourcePath = new File(FileUtil.getResourcesFilePath(path));
         String staticPath = webAppDir + "/static";
         File targetPath = new File(staticPath);
@@ -340,11 +311,34 @@ public class AutoBuilderFactoryTest {
         //创建初始index.jsp
         String indexDir = webAppDir + "/index.jsp";
         System.out.println("\t\t\t|--创建index.jsp ："+ indexDir);
-        FreemarkerUtil.createFile(templateUrl,"index.ftl",indexDir,null,null);
+        FreemarkerUtil.createFile(templateUrl,"webapp/template/index.ftl",indexDir,null,null);
 
         //创建web.xml
         String webxmlDir = webInfoDir + "/web.xml";
         System.out.println("\t\t\t\t|--创建web.xml : "+webxmlDir);
-        FreemarkerUtil.createFile(templateUrl,"web.ftl",webxmlDir,null,null);
+        FreemarkerUtil.createFile(templateUrl,"webapp/xml/web.ftl",webxmlDir,null,null);
+    }
+
+
+    /**
+     * 创建某个子包下面的文件
+     * @param superPackage 父路径
+     * @param subPath 子路径
+     * @param fileType 文件类型 即文件后缀 例如：".java"
+     * @param level 打印生成文件的目录等级 例如： "\t\t\t"
+     * @param dataModel freemarker模板文件需要的作用域值
+     */
+    private static void createPackageFiles(String superPackage,String subPath,String fileType,String level,Map<String,Object> dataModel){
+        String path = config.getTemplateUrl().substring(1)+subPath;
+        File file = new File(FileUtil.getResourcesFilePath(path));
+        File[] files = file.listFiles();
+        for (File temp : files) {
+            String name = temp.getName().substring(0,temp.getName().indexOf(".ftl"));
+            String fileName = name + fileType;
+
+            String tempPath = superPackage + "/"+ fileName;
+            System.out.println(level + "|--创建" + name + " : " + tempPath);
+            FreemarkerUtil.createFile(templateUrl+subPath,name+".ftl",tempPath,dataModel,null);
+        }
     }
 }
