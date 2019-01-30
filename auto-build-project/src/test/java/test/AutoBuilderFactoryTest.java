@@ -299,11 +299,11 @@ public class AutoBuilderFactoryTest {
         System.out.println("\t\t\t|--创建WEB-INF ："+ webInfoDir);
         FileUtil.mkdirs(webInfoPath);
 
-        //引入layui组件
-        //String path = config.getTemplateUrl().substring(1)+ "/static";
-        String path = config.getTemplateUrl().substring(1);
+        //引入组件
+        String path = config.getTemplateUrl().substring(1)+"/webapp/static";
         File sourcePath = new File(FileUtil.getResourcesFilePath(path));
-        String staticPath = webAppDir + "/static";
+        //String staticPath = webAppDir + "/static";
+        String staticPath = webAppDir;
         File targetPath = new File(staticPath);
         FileUtil.copyDirectory(sourcePath,targetPath);
         System.out.println("\t\t\t|--创建静态资源 ："+ staticPath);
@@ -311,12 +311,12 @@ public class AutoBuilderFactoryTest {
         //创建初始index.jsp
         String indexDir = webAppDir + "/index.jsp";
         System.out.println("\t\t\t|--创建index.jsp ："+ indexDir);
-        FreemarkerUtil.createFile(templateUrl,"webapp/template/index.ftl",indexDir,null,null);
+        FreemarkerUtil.createFile(templateUrl + "/webapp/template","index.ftl",indexDir,null,null);
 
         //创建web.xml
         String webxmlDir = webInfoDir + "/web.xml";
         System.out.println("\t\t\t\t|--创建web.xml : "+webxmlDir);
-        FreemarkerUtil.createFile(templateUrl,"webapp/xml/web.ftl",webxmlDir,null,null);
+        FreemarkerUtil.createFile(templateUrl + "/webapp/xml","web.ftl",webxmlDir,null,null);
     }
 
 
