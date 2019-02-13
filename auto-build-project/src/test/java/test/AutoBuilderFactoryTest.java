@@ -293,12 +293,6 @@ public class AutoBuilderFactoryTest {
      * 创建webapp目录下文件
      */
     private static void createWebAppFiles(String webAppDir) {
-        //创建WEB-INF目录
-        String webInfoDir = webAppDir + "/WEB-INF";
-        File webInfoPath = new File(webInfoDir);
-        System.out.println("\t\t\t|--创建WEB-INF ："+ webInfoDir);
-        FileUtil.mkdirs(webInfoPath);
-
         //引入组件
         String path = config.getTemplateUrl().substring(1)+"/webapp/static";
         File sourcePath = new File(FileUtil.getResourcesFilePath(path));
@@ -307,6 +301,12 @@ public class AutoBuilderFactoryTest {
         File targetPath = new File(staticPath);
         FileUtil.copyDirectory(sourcePath,targetPath);
         System.out.println("\t\t\t|--创建静态资源 ："+ staticPath);
+
+        //创建WEB-INF目录
+        String webInfoDir = webAppDir + "/WEB-INF";
+        File webInfoPath = new File(webInfoDir);
+        System.out.println("\t\t\t|--创建WEB-INF ："+ webInfoDir);
+        FileUtil.mkdirs(webInfoPath);
 
         //创建初始index.jsp
         String indexDir = webAppDir + "/index.jsp";
