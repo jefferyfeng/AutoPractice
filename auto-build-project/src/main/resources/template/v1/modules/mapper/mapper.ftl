@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<#noparse><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" ></#noparse>
 <mapper namespace="${daoPackage}.${tableModel.tableName}Dao">
     <!--表名-->
     <sql id="table_name">${tableModel.tableNameDB}</sql>
@@ -46,7 +46,7 @@
             <#if columnModel.isPrimaryKey>
             <#else>
             <if test="${columnModel.columnName} != null">
-                ${columnModel.columnName}<#if columnModel_has_next>,<#else></#if>
+                <#noparse>#{</#noparse>${columnModel.columnName}<#noparse>}</#noparse><#if columnModel_has_next>,<#else></#if>
             </if>
             </#if>
         </#list>
@@ -102,7 +102,7 @@
         </if>
         </#list>
         <if test="${tableModel.tableName} != null">
-            limit ${"#"}{pageBean.limitOffset} , ${"#"}{pageBean.pageSize}
+            limit ${"#"}{pageBean.begin} , ${"#"}{pageBean.pageSize}
         </if>
     </select>
 

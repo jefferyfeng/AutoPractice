@@ -25,6 +25,7 @@ public class BaseDBTables {
                     "\tid BIGINT (20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n " +
                     "\tusername VARCHAR (255) UNIQUE NOT NULL COMMENT '用户名',\n" +
                     "\tsex INT (2) COMMENT '性别 0.未知 1.男 2.女',\n" +
+                    "\tphoto VARCHAR (512) COMMENT '头像',\n" +
                     "\temail VARCHAR (255) UNIQUE COMMENT '邮箱',\n" +
                     "\tpassword VARCHAR (40) NOT NULL COMMENT '密码',\n" +
                     "\tphone VARCHAR (32) COMMENT '手机号',\n" +
@@ -58,7 +59,8 @@ public class BaseDBTables {
                     "\tid BIGINT (20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n" +
                     "\trole_name VARCHAR (255) DEFAULT NULL COMMENT '角色名称',\n" +
                     "\tdescription VARCHAR (512) DEFAULT NULL COMMENT '角色描述',\n" +
-                    "\tstatus INT (2) DEFAULT NULL COMMENT '状态',\n" +
+                    "\tsequence INT(2) DEFAULT NULL COMMENT '次序',\n" +
+                    "\tstatus INT (2) DEFAULT NULL COMMENT '状态 0.禁用 1.启用',\n" +
                     "\tis_valid INT (11) DEFAULT NULL COMMENT '是否有效 0.无效 1.有效',\n" +
                     "\tcreate_date datetime DEFAULT NULL COMMENT '创建时间',\n" +
                     "\tcreate_user BIGINT (20) DEFAULT NULL COMMENT '创建人',\n" +
@@ -112,17 +114,18 @@ public class BaseDBTables {
             Connection conn = ConnectionUtil.getConn();
             Statement stm = conn.createStatement();
             String sql = "CREATE TABLE " + sysPermissionTableName+" (\n" +
-                    "  id bigint(20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n" +
-                    "  permission_name varchar(128) DEFAULT NULL COMMENT '权限名称',\n" +
-                    "  parent_id varchar(128) DEFAULT NULL COMMENT '父级权限id',\n" +
-                    "  permission_url varchar(128) DEFAULT NULL COMMENT '权限URL',\n" +
-                    "  sequence int(2) DEFAULT NULL COMMENT '次序',\n" +
-                    "  permission_icon varchar(64) DEFAULT NULL,\n" +
-                    "  is_valid int(11) DEFAULT NULL COMMENT '是否有效0.无效 1.有效',\n" +
+                    "  id BIGINT(20) PRIMARY KEY AUTO_INCREMENT COMMENT 'id',\n" +
+                    "  permission_name VARCHAR(128) DEFAULT NULL COMMENT '权限名称',\n" +
+                    "  parent_id VARCHAR(128) DEFAULT NULL COMMENT '父级权限id',\n" +
+                    "  permission_url VARCHAR(128) DEFAULT NULL COMMENT '权限URL',\n" +
+                    "  sequence INT(2) DEFAULT NULL COMMENT '次序',\n" +
+                    "  layer INT(2) DEFAULT NULL COMMENT '层级',\n" +
+                    "  permission_icon VARCHAR(64) DEFAULT NULL,\n" +
+                    "  is_valid INT(11) DEFAULT NULL COMMENT '是否有效0.无效 1.有效',\n" +
                     "  create_date datetime DEFAULT NULL COMMENT '创建时间',\n" +
-                    "  create_user bigint(20) DEFAULT NULL COMMENT '创建人',\n" +
+                    "  create_user BIGINT(20) DEFAULT NULL COMMENT '创建人',\n" +
                     "  update_date datetime DEFAULT NULL COMMENT '更新时间',\n" +
-                    "  update_user bigint(20) DEFAULT NULL COMMENT '更新人'\n" +
+                    "  update_user BIGINT(20) DEFAULT NULL COMMENT '更新人'\n" +
                     ")";
             stm.executeUpdate(sql);
             System.out.println("Table :" + sysPermissionTableName + " 创建成功！");
