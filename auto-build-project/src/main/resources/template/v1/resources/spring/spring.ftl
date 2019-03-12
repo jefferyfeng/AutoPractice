@@ -14,6 +14,9 @@
     <!-- 引入db.properties配置文件 -->
     <context:property-placeholder location="classpath:/config/db/db.properties" />
 
+    <!-- 启动AspectJ支持   只对扫描过的bean有效-->
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true" />
+
     <!-- Druid数据源配置-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="${"$"}{${config.dbType}.driver}"></property>
