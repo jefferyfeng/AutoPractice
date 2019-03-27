@@ -28,20 +28,33 @@ public class ${tableModel.tableName}ServiceImpl implements ${tableModel.tableNam
     @Override
     @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
     public void add(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
-        ${tableModel.tableNameLowFirstChar}.setCreateDate(new Date());
+        Date date = new Date();
+        ${tableModel.tableNameLowFirstChar}.setCreateDate(date);
+        ${tableModel.tableNameLowFirstChar}.setUpdateDate(date);
         ${tableModel.tableNameLowFirstChar}.setIsValid(1);
         ${tableModel.tableNameLowFirstChar}Dao.insert(${tableModel.tableNameLowFirstChar});
     }
 
     /**
-     * 根据主键 删除${tableModel.tableName} (逻辑删除)
-     * @param ${tableModel.tableNameLowFirstChar}
+     * 根据主键 删除${tableModel.tableName} (物理删除)
+     * @param ${pkColumnModel.columnName}
      */
     @Override
     @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
-    public void remove(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
-        //${tableModel.tableNameLowFirstChar}Dao.delete(${tableModel.tableNameLowFirstChar}.get${pkColumnModel.columnNameUpFirstChar}());
+    public void delete(${pkColumnModel.columnType} ${pkColumnModel.columnName}){
+        ${tableModel.tableNameLowFirstChar}Dao.delete(${tableModel.tableNameLowFirstChar});
+    }
+
+    /**
+     * 根据主键 删除${tableModel.tableName} (逻辑删除)
+     * @param ${pkColumnModel.columnName}
+     */
+    @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
+    void remove(${pkColumnModel.columnType} ${pkColumnModel.columnName}){
+        ${tableModel.tableName} ${tableModel.tableNameLowFirstChar} = new ${tableModel.tableName}();
+        ${tableModel.tableNameLowFirstChar}.setId(${pkColumnModel.columnName});
         ${tableModel.tableNameLowFirstChar}.setIsValid(0);
+        ${tableModel.tableNameLowFirstChar}.setUpdateDate(new Date());
         ${tableModel.tableNameLowFirstChar}Dao.update(${tableModel.tableNameLowFirstChar});
     }
 
@@ -52,6 +65,7 @@ public class ${tableModel.tableName}ServiceImpl implements ${tableModel.tableNam
     @Override
     @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
     public void modify(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
+        ${tableModel.tableNameLowFirstChar}.setUpdateDate(new Date());
         ${tableModel.tableNameLowFirstChar}Dao.update(${tableModel.tableNameLowFirstChar});
     }
 
@@ -83,4 +97,28 @@ public class ${tableModel.tableName}ServiceImpl implements ${tableModel.tableNam
     public List<${tableModel.tableName}> queryByFieldsAndPage(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}){
         return ${tableModel.tableNameLowFirstChar}Dao.queryByFieldsAndPage(${tableModel.tableNameLowFirstChar});
     }
+
+    /**
+     * 批量删除
+     * @param ids
+     */
+    @Override
+    @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
+    public void batchRemove(Long[] ${pkColumnModel.columnName}s) {
+        ${tableModel.tableNameLowFirstChar}Dao.batchRemove(${pkColumnModel.columnName}s);
+    }
+
+    <#list tableModel.columnModelList as columnModel>
+        <#if columnModel.columnName?contains("status")>
+    /**
+     * 批量修改状态
+     * @param ${pkColumnModel.columnName}s 修改的${pkColumnModel.columnName}s
+     * @param status 修改的状态
+     */
+    @Override
+    public void batchModifyStatus(Long[] ${pkColumnModel.columnName}s, Integer status) {
+        ${tableModel.tableNameLowFirstChar}Dao.batchModifyStatus(${pkColumnModel.columnName}s,status);
+    }
+        </#if>
+    </#list>
 }

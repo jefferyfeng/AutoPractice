@@ -16,10 +16,16 @@ public interface ${tableModel.tableName}Service {
     void add(${tableModel.tableName} ${tableModel.tableNameLowFirstChar});
 
     /**
-     * 根据主键 删除${tableModel.tableName}
-     * @param ${tableModel.tableNameLowFirstChar}
+     * 根据主键 删除${tableModel.tableName} (物理删除)
+     * @param ${pkColumnModel.columnName}
      */
-    void remove(${tableModel.tableName} ${tableModel.tableNameLowFirstChar});
+    void delete(${pkColumnModel.columnType} ${pkColumnModel.columnName});
+
+    /**
+     * 根据主键 删除${tableModel.tableName} (逻辑删除)
+     * @param ${pkColumnModel.columnName}
+     */
+    void remove(${pkColumnModel.columnType} ${pkColumnModel.columnName});
 
     /**
      * 修改${tableModel.tableName}
@@ -46,4 +52,22 @@ public interface ${tableModel.tableName}Service {
      * @return ${tableModel.tableNameLowFirstChar}s
      */
     List<${tableModel.tableName}> queryByFieldsAndPage(${tableModel.tableName} ${tableModel.tableNameLowFirstChar});
+
+    /**
+     * 批量删除${tableModel.tableName}s
+     * @param ${pkColumnModel.columnName}s
+     */
+    void batchRemove(Long[] ${pkColumnModel.columnName}s);
+
+    <#list tableModel.columnModelList as columnModel>
+        <#if columnModel.columnName?contains("status")>
+    /**
+     * 批量修改状态
+     * @param ${pkColumnModel.columnName}s 修改的${pkColumnModel.columnName}s
+     * @param status 修改的状态
+     */
+    void batchModifyStatus(Long[] ${pkColumnModel.columnName}s, Integer status);
+        </#if>
+    </#list>
+
 }

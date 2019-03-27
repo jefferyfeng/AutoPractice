@@ -1,6 +1,7 @@
 package ${daoPackage};
 
 import ${modelPackage}.${tableModel.tableName};
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
@@ -46,4 +47,21 @@ public interface ${tableModel.tableName}Dao {
      * @return ${tableModel.tableNameLowFirstChar}s
      */
     List<${tableModel.tableName}> queryByFieldsAndPage(${tableModel.tableName} ${tableModel.tableNameLowFirstChar});
+
+    /**
+     * 批量删除（逻辑删除）
+     * @param ids 操作的ids
+     */
+    void batchRemove(@Param("${pkColumnModel.columnName}s") Long[] ${pkColumnModel.columnName}s);
+
+    <#list tableModel.columnModelList as columnModel>
+        <#if columnModel.columnName?contains("status")>
+    /**
+     * 批量修改状态
+     * @param ids
+     * @param status
+     */
+    void batchModifyStatus(@Param("${pkColumnModel.columnName}s") Long[] ${pkColumnModel.columnName}s, @Param("status") Integer status);
+        </#if>
+    </#list>
 }

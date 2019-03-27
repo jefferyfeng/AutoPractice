@@ -29,7 +29,7 @@ public class Configration {
     private String mapperPackageName;
     private String servicePackageName;
     private String controllerPackageName;
-    //shiro基础表
+    //权限基础表
     private String sysUser;
     private String sysRole;
     private String sysUserRole;
