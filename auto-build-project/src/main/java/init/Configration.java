@@ -39,6 +39,7 @@ public class Configration {
      * 子模块
      */
     private String tableName;
+    private String moduleDir;
 
     public String getGroupId() {
         return groupId;
@@ -206,5 +207,13 @@ public class Configration {
 
     public void setSysRolePermission(String sysRolePermission) {
         this.sysRolePermission = sysRolePermission;
+    }
+
+    public String getModuleDir() {
+        return moduleDir;
+    }
+
+    public void setModuleDir(String moduleDir) {
+        this.moduleDir = moduleDir;
     }
 }

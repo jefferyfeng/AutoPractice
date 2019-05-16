@@ -68,7 +68,7 @@
             <#if columnModel.isPrimaryKey>
             <#else>
         <if test="${columnModel.columnName} != null">
-            ${columnModel.columnDBName} = ${"#"}{${columnModel.columnName}},W<#--<#if columnModel_has_next>,</#if>-->
+            ${columnModel.columnDBName} = ${"#"}{${columnModel.columnName}},<#--<#if columnModel_has_next>,</#if>-->
         </if>
             </#if>
         </#list>

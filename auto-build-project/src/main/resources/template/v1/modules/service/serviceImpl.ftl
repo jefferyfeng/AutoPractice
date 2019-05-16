@@ -42,15 +42,16 @@ public class ${tableModel.tableName}ServiceImpl implements ${tableModel.tableNam
     @Override
     @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
     public void delete(${pkColumnModel.columnType} ${pkColumnModel.columnName}){
-        ${tableModel.tableNameLowFirstChar}Dao.delete(${tableModel.tableNameLowFirstChar});
+        ${tableModel.tableNameLowFirstChar}Dao.delete(${pkColumnModel.columnName});
     }
 
     /**
      * 根据主键 删除${tableModel.tableName} (逻辑删除)
      * @param ${pkColumnModel.columnName}
      */
+    @Override
     @Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED,readOnly = false)
-    void remove(${pkColumnModel.columnType} ${pkColumnModel.columnName}){
+    public void remove(${pkColumnModel.columnType} ${pkColumnModel.columnName}){
         ${tableModel.tableName} ${tableModel.tableNameLowFirstChar} = new ${tableModel.tableName}();
         ${tableModel.tableNameLowFirstChar}.setId(${pkColumnModel.columnName});
         ${tableModel.tableNameLowFirstChar}.setIsValid(0);

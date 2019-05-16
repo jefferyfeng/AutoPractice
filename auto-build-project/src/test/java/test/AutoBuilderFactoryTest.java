@@ -27,7 +27,9 @@ public class AutoBuilderFactoryTest {
         //1. 建立权限相关基表
         //createPermissionTables();
         //2. 构建项目
-        buildProject();
+        //buildProject();
+        //构建子模块
+        buildModules();
     }
 
     /**
@@ -40,6 +42,96 @@ public class AutoBuilderFactoryTest {
         BaseDBTables.createPermissionTable();
         BaseDBTables.createRolePermissionTable();
     }
+
+    private static void buildModules(){
+
+        String tableName = config.getTableName();
+        String modelName = StringUtil.noUnderLineAndUpFirstChar(tableName);
+        String moduleDirs = config.getModuleDir();
+        String mainDir = moduleDirs + "/src/main";
+        String javaModule = String.format("%s/java/%s/modules", mainDir, StringUtil.getPathStr(config.getGroupId()));
+
+        String modulePackage = StringUtil.noUnderLineAndLowFirstChar(tableName).toLowerCase();
+        System.out.println(String.format("创建模块%s : ",modulePackage));
+
+        //创建module包
+        String moduleDir = String.format("%s/%s",javaModule, modulePackage);
+        System.out.println(String.format("\t|--创建%s包 : ",modulePackage));
+        File modulePath = new File(moduleDir);
+        FileUtil.mkdirs(modulePath);
+
+        //获取模块表信息
+        TableModel tableModel = DBInfo.initTableModel(config.getTableName());
+
+        Map<String,Object> dataMap = new HashMap<String,Object>();
+        dataMap.put("modelPackage",String.format("%s.modules.%s.%s",config.getGroupId(),modulePackage,config.getEntityPackageName()));
+        dataMap.put("daoPackage", String.format("%s.modules.%s.%s",config.getGroupId(),modulePackage,config.getDaoPackageName()));
+        dataMap.put("mapperPackage", String.format("%s.modules.%s.%s",config.getGroupId(),modulePackage,config.getMapperPackageName()));
+        dataMap.put("servicePackage", String.format("%s.modules.%s.%s",config.getGroupId(),modulePackage,config.getServicePackageName()));
+        dataMap.put("controllerPackage", String.format("%s.modules.%s.%s",config.getGroupId(),modulePackage,config.getControllerPackageName()));
+        dataMap.put("tableModel",tableModel);
+        dataMap.put("basePackage",config.getGroupId() + ".core.base");
+        dataMap.put("config",config);
+
+        //获取主键列
+        for (ColumnModel columnModel : tableModel.getColumnModelList()) {
+            if(columnModel.getIsPrimaryKey()){
+                dataMap.put("pkColumnModel",columnModel);
+            }
+        }
+
+        //创建model
+        String modelDir = String.format("%s/%s", moduleDir, config.getEntityPackageName());
+        System.out.println(String.format("\t\t|--创建model : ",modelDir));
+        File modelPath = new File(modelDir);
+        FileUtil.mkdirs(modelPath);
+        String modelObjectDir = modelDir + "/" + tableModel.getTableName() + ".java";
+        System.out.println("\t\t\t|--创建"+ tableModel.getTableName() +": "+modelObjectDir);
+        FreemarkerUtil.createFile(templateUrl + "/modules/model","model.ftl",modelObjectDir,dataMap,null);
+
+        //创建dao
+        String daoDir = String.format("%s/%s", moduleDir, config.getDaoPackageName());
+        System.out.println(String.format("\t\t|--创建dao : ",daoDir));
+        File daoPath = new File(daoDir);
+        FileUtil.mkdirs(daoPath);
+        String daoInterfaceDir = daoDir + "/" + tableModel.getTableName() + "Dao.java";
+        System.out.println("\t\t\t|--创建"+ tableModel.getTableName() +"Dao : "+daoInterfaceDir);
+        FreemarkerUtil.createFile(templateUrl + "/modules/dao","dao.ftl",daoInterfaceDir,dataMap,null);
+
+        //创建mapper
+        String mapperDir = String.format("%s/%s", moduleDir, config.getMapperPackageName());
+        System.out.println(String.format("\t\t|--创建mapper : ",mapperDir));
+        File mapperPath = new File(mapperDir);
+        FileUtil.mkdirs(mapperPath);
+        String mapperImplDir = mapperDir + "/" + tableModel.getTableName() + "Mapper.xml";
+        System.out.println("\t\t\t|--创建"+ tableModel.getTableName() +"Mapper : "+mapperImplDir);
+        FreemarkerUtil.createFile(templateUrl + "/modules/mapper","mapper.ftl",mapperImplDir,dataMap,null);
+
+        //创建service
+        String serviceDir = String.format("%s/%s", moduleDir, config.getServicePackageName());
+        System.out.println(String.format("\t\t|--创建service : ",serviceDir));
+        File servicePath = new File(serviceDir);
+        FileUtil.mkdirs(servicePath);
+        String serviceInterfaceDir = serviceDir + "/" + tableModel.getTableName() + "Service.java";
+        System.out.println("\t\t\t|--创建"+ tableModel.getTableName() +"Service : "+serviceInterfaceDir);
+        FreemarkerUtil.createFile(templateUrl + "/modules/service","service.ftl",serviceInterfaceDir,dataMap,null);
+
+        //创建service实现
+        String serviceImplDir = serviceDir + "/" +tableModel.getTableName() + "ServiceImpl.java";
+        System.out.println("\t\t\t|--创建"+ tableModel.getTableName() +"ServiceImpl : "+serviceImplDir);
+        FreemarkerUtil.createFile(templateUrl + "/modules/service","serviceImpl.ftl",serviceImplDir,dataMap,null);
+
+        //创建controller
+        String conrollerDir = String.format("%s/%s", moduleDir, config.getControllerPackageName());
+        System.out.println(String.format("\t\t|--创建controller : ",conrollerDir));
+        File controllerPath = new File(conrollerDir);
+        FileUtil.mkdirs(controllerPath);
+        String controllerClassDir = conrollerDir + "/" +tableModel.getTableName() + "Controller.java";
+        System.out.println("\t\t\t|--创建"+ tableModel.getTableName() +"Controller : "+controllerClassDir);
+        FreemarkerUtil.createFile(templateUrl + "/modules/controller","controller.ftl",controllerClassDir,dataMap,null);
+
+    }
+
 
     /**
      * 构建项目
@@ -203,6 +295,22 @@ public class AutoBuilderFactoryTest {
             dataMap.put("tableModel",tableModel);
             dataMap.put("basePackage",basePackage);
             dataMap.put("config",config);
+
+            dataMap.put("SysUser",StringUtil.noUnderLineAndUpFirstChar(config.getSysUser()));
+            dataMap.put("SysRole", StringUtil.noUnderLineAndUpFirstChar(config.getSysRole()));
+            dataMap.put("SysUserRole", StringUtil.noUnderLineAndUpFirstChar(config.getSysUserRole()));
+            dataMap.put("SysPermission", StringUtil.noUnderLineAndUpFirstChar(config.getSysPermission()));
+            dataMap.put("SysRolePermission", StringUtil.noUnderLineAndUpFirstChar(config.getSysRolePermission()));
+            dataMap.put("sysUser",StringUtil.noUnderLineAndLowFirstChar(config.getSysUser()));
+            dataMap.put("sysRole", StringUtil.noUnderLineAndLowFirstChar(config.getSysRole()));
+            dataMap.put("sysUserRole", StringUtil.noUnderLineAndLowFirstChar(config.getSysUserRole()));
+            dataMap.put("sysPermission", StringUtil.noUnderLineAndLowFirstChar(config.getSysPermission()));
+            dataMap.put("sysRolePermission", StringUtil.noUnderLineAndLowFirstChar(config.getSysRolePermission()));
+            dataMap.put("sysuser",StringUtil.noUnderLineAndLowFirstChar(config.getSysUser()).toLowerCase());
+            dataMap.put("sysrole", StringUtil.noUnderLineAndLowFirstChar(config.getSysRole()).toLowerCase());
+            dataMap.put("sysuserRole", StringUtil.noUnderLineAndLowFirstChar(config.getSysUserRole()).toLowerCase());
+            dataMap.put("syspermission", StringUtil.noUnderLineAndLowFirstChar(config.getSysPermission()).toLowerCase());
+            dataMap.put("sysrolepermission", StringUtil.noUnderLineAndLowFirstChar(config.getSysRolePermission()).toLowerCase());
 
             //获取主键列
             for (ColumnModel columnModel : tableModel.getColumnModelList()) {

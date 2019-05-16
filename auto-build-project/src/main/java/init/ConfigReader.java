@@ -42,15 +42,16 @@ public class ConfigReader {
             config.setMapperPackageName(pro.getProperty("package.mapper"));
             config.setServicePackageName(pro.getProperty("package.service"));
             config.setControllerPackageName(pro.getProperty("package.controller"));
-            //shiro表名
+            //权限表名
             config.setSysUser(pro.getProperty("boss.userTable"));
             config.setSysRole(pro.getProperty("boss.roleTable"));
             config.setSysUserRole(pro.getProperty("boss.userRoleTable"));
             config.setSysPermission(pro.getProperty("boss.permissionTable"));
             config.setSysRolePermission(pro.getProperty("boss.rolePermissionTable"));
 
-            //子模块部分 TODO 后续跟进
-            config.setTableName(pro.getProperty("jdbc.tableName"));
+            //子模块部分
+            config.setTableName(pro.getProperty("module.tableName"));
+            config.setModuleDir(pro.getProperty("module.dir"));
 
 
             //读取mysqlToJavaMapping配置文件
