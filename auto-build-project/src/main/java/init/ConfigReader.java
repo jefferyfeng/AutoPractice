@@ -52,6 +52,7 @@ public class ConfigReader {
             //子模块部分
             config.setTableName(pro.getProperty("module.tableName"));
             config.setModuleDir(pro.getProperty("module.dir"));
+            config.setModuleType(pro.getProperty("module.type"));
 
 
             //读取mysqlToJavaMapping配置文件

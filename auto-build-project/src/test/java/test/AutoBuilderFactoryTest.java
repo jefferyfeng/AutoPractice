@@ -12,7 +12,9 @@ import util.StringUtil;
 
 import java.io.*;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,12 +53,12 @@ public class AutoBuilderFactoryTest {
         String mainDir = moduleDirs + "/src/main";
         String javaModule = String.format("%s/java/%s/modules", mainDir, StringUtil.getPathStr(config.getGroupId()));
 
-        String modulePackage = StringUtil.noUnderLineAndLowFirstChar(tableName).toLowerCase();
+        String modulePackage = modelName.toLowerCase();
         System.out.println(String.format("创建模块%s : ",modulePackage));
 
         //创建module包
         String moduleDir = String.format("%s/%s",javaModule, modulePackage);
-        System.out.println(String.format("\t|--创建%s包 : ",modulePackage));
+        System.out.println("\t|--创建模块Java : ");
         File modulePath = new File(moduleDir);
         FileUtil.mkdirs(modulePath);
 
@@ -129,6 +131,52 @@ public class AutoBuilderFactoryTest {
         String controllerClassDir = conrollerDir + "/" +tableModel.getTableName() + "Controller.java";
         System.out.println("\t\t\t|--创建"+ tableModel.getTableName() +"Controller : "+controllerClassDir);
         FreemarkerUtil.createFile(templateUrl + "/modules/controller","controller.ftl",controllerClassDir,dataMap,null);
+
+        //构建web页面
+        if("web".equals(config.getModuleType())){
+            //排除字段
+            List<String> excludeList = Arrays.asList("isValid", "createDate", "createUser", "updateDate", "updateUser");
+            dataMap.put("excludeList", excludeList);
+
+            //创建view下子模块
+            String webappDir = mainDir + "/webapp";
+            String webDir = String.format("%s/WEB-INF/view/modules/%s", webappDir, modulePackage);
+            File webPath = new File(webDir);
+            FileUtil.mkdirs(webPath);
+            String jsDir = String.format("%s/static/js/modules/%s", webappDir, modulePackage);
+            File jsPath = new File(jsDir);
+            FileUtil.mkdirs(jsPath);
+
+
+            //创建页面
+            System.out.println("\t|--创建模块web : ");
+            String webListDir = String.format("%s/%s_list.jsp", webDir, tableModel.getTableNameLowFirstChar());
+            System.out.println("\t\t|--创建"+ tableModel.getTableNameLowFirstChar() +"_list.jsp : "+webListDir);
+            FreemarkerUtil.createFile(templateUrl + "/view","web_list.ftl",webListDir,dataMap,null);
+
+            String webAddtDir = String.format("%s/%s_add.jsp", webDir, tableModel.getTableNameLowFirstChar());
+            System.out.println("\t\t|--创建"+ tableModel.getTableNameLowFirstChar() +"_add.jsp : "+webAddtDir);
+            FreemarkerUtil.createFile(templateUrl + "/view","web_add.ftl",webAddtDir,dataMap,null);
+
+            String webEditDir = String.format("%s/%s_edit.jsp", webDir, tableModel.getTableNameLowFirstChar());
+            System.out.println("\t\t|--创建"+ tableModel.getTableNameLowFirstChar() +"_edit.jsp : "+webEditDir);
+            FreemarkerUtil.createFile(templateUrl + "/view","web_edit.ftl",webEditDir,dataMap,null);
+
+            //创建js
+            System.out.println("\t|--创建模块js : ");
+            String jsListDir = String.format("%s/%s_list.js", jsDir, tableModel.getTableNameLowFirstChar());
+            System.out.println("\t\t|--创建"+ tableModel.getTableNameLowFirstChar() +"_list.js : "+jsListDir);
+            FreemarkerUtil.createFile(templateUrl + "/view","js_list.ftl",jsListDir,dataMap,null);
+
+            String jsAddDir = String.format("%s/%s_add.js", jsDir, tableModel.getTableNameLowFirstChar());
+            System.out.println("\t\t|--创建"+ tableModel.getTableNameLowFirstChar() +"_add.js : "+jsAddDir);
+            FreemarkerUtil.createFile(templateUrl + "/view","js_add.ftl",jsAddDir,dataMap,null);
+
+            String jsEditDir = String.format("%s/%s_edit.js", jsDir, tableModel.getTableNameLowFirstChar());
+            System.out.println("\t\t|--创建"+ tableModel.getTableNameLowFirstChar() +"_edit.js : "+jsEditDir);
+            FreemarkerUtil.createFile(templateUrl + "/view","js_edit.ftl",jsEditDir,dataMap,null);
+
+        }
 
     }
 
@@ -244,7 +292,6 @@ public class AutoBuilderFactoryTest {
         String basePackage = config.getGroupId() + ".core.base";
         String[] permissions = {config.getSysUser(),config.getSysRole(),config.getSysUserRole(),config.getSysPermission(),config.getSysRolePermission()};
         createPermissions(permissionDir,permissions,basePackage);
-        
 
 
     }

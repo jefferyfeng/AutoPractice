@@ -40,6 +40,7 @@ public class Configration {
      */
     private String tableName;
     private String moduleDir;
+    private String moduleType;
 
     public String getGroupId() {
         return groupId;
@@ -215,5 +216,13 @@ public class Configration {
 
     public void setModuleDir(String moduleDir) {
         this.moduleDir = moduleDir;
+    }
+
+    public String getModuleType() {
+        return moduleType;
+    }
+
+    public void setModuleType(String moduleType) {
+        this.moduleType = moduleType;
     }
 }

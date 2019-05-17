@@ -103,9 +103,7 @@
             and ${columnModel.columnDBName} = ${"#"}{${columnModel.columnName}}
         </if>
         </#list>
-        <if test="${tableModel.tableName} != null">
-            limit ${"#"}{pageBean.begin} , ${"#"}{pageBean.pageSize}
-        </if>
+        order by ${pkColumnModel.columnDBName}
     </select>
 
     <!-- 批量删除（逻辑删除） -->

@@ -16,7 +16,7 @@ public class TableModel {
     //表的列字段集合
     private List<ColumnModel> columnModelList;
     //表的注释
-    private String Comment;
+    private String comment;
 
     public TableModel() {
     }
@@ -26,7 +26,7 @@ public class TableModel {
         this.tableName = tableName;
         this.tableNameLowFirstChar = tableNameLowFirstChar;
         this.columnModelList = columnModelList;
-        Comment = comment;
+        this.comment = comment;
     }
 
     public String getTableNameDB() {
@@ -62,10 +62,10 @@ public class TableModel {
     }
 
     public String getComment() {
-        return Comment;
+        return comment;
     }
 
     public void setComment(String comment) {
-        Comment = comment;
+        this.comment = comment;
     }
 }

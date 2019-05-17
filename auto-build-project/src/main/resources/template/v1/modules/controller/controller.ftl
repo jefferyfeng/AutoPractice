@@ -1,6 +1,7 @@
 package ${controllerPackage};
 
 import ${config.groupId}.core.base.BaseResult;
+<#if config.moduleType=="web">import ${basePackage}.LayuiData;</#if>
 import ${basePackage}.PageBean;
 import ${config.groupId}.core.util.ResultUtil;
 import ${config.groupId}.core.constants.Constants;
@@ -121,6 +122,68 @@ public class ${tableModel.tableName}Controller {
         return ResultUtil.result(ResultConstants.SUCCESS);
     }
 
+    <#if config.moduleType=="web">
+    /**
+     * 跳转到列表页面
+     * @param modelAndView
+     * @return
+     */
+    @RequestMapping("/${tableModel.tableNameLowFirstChar}List")
+    public ModelAndView ${tableModel.tableNameLowFirstChar}List(ModelAndView modelAndView){
+        modelAndView.setViewName("modules/${tableModel.tableName ? lower_case}/${tableModel.tableNameLowFirstChar}_list");
+        return modelAndView;
+    }
+
+    /**
+     * 跳转到添加页面
+     * @param modelAndView
+     * @return
+     */
+    @RequestMapping("/toAdd${tableModel.tableName}")
+    public ModelAndView toAdd${tableModel.tableName}(ModelAndView modelAndView){
+        modelAndView.setViewName("modules/${tableModel.tableName ? lower_case}/${tableModel.tableNameLowFirstChar}_add");
+        return modelAndView;
+    }
+
+    /**
+     * 跳转到修改页面
+     * @param modelAndView
+     * @return
+     */
+    @RequestMapping("/toEdit${tableModel.tableName}")
+    public ModelAndView toEdit${tableModel.tableName}(ModelAndView modelAndView, @RequestParam("${pkColumnModel.columnName}")${pkColumnModel.columnType} ${pkColumnModel.columnName}){
+        ${tableModel.tableName} ${tableModel.tableNameLowFirstChar} = ${tableModel.tableNameLowFirstChar}Service.queryOne(${pkColumnModel.columnName});
+        modelAndView.addObject("${tableModel.tableNameLowFirstChar}", ${tableModel.tableNameLowFirstChar});
+        modelAndView.setViewName("modules/${tableModel.tableName ? lower_case}/${tableModel.tableNameLowFirstChar}_edit");
+        return modelAndView;
+    }
+
+    /**
+     * 获取数据表格
+     * @param ${tableModel.tableNameLowFirstChar}
+     * @param pageBean
+     * @return
+     */
+    @RequestMapping("/list${tableModel.tableName}s")
+    public LayuiData list${tableModel.tableName}s(${tableModel.tableName} ${tableModel.tableNameLowFirstChar}, PageBean pageBean){
+        LayuiData layuiData = new LayuiData();
+        try {
+            ${tableModel.tableNameLowFirstChar}.setPageBean(pageBean);
+            List<${tableModel.tableName}> ${tableModel.tableNameLowFirstChar}List = ${tableModel.tableNameLowFirstChar}Service.queryByFieldsAndPage(${tableModel.tableNameLowFirstChar});
+            layuiData.setCode(ResultConstants.SUCCESS.getCode());
+            layuiData.setMsg(ResultConstants.SUCCESS.getMsg());
+            layuiData.setCount(pageBean.getTotal());
+            layuiData.setData(${tableModel.tableNameLowFirstChar}List);
+            return layuiData;
+        } catch (Exception e) {
+            e.printStackTrace();
+            layuiData.setCode(ResultConstants.SUCCESS.getCode());
+            layuiData.setMsg(ResultConstants.FAILED.getMsg());
+            return layuiData;
+        }
+    }
+    </#if>
+
     <#list tableModel.columnModelList as columnModel>
         <#if columnModel.columnName?contains("status")>
     /**
@@ -134,7 +197,6 @@ public class ${tableModel.tableName}Controller {
     }
         </#if>
     </#list>
-
 
     <#-- 权限相关 -->
     <#if config.sysUser == tableModel.tableNameDB><#-- 用户表 -->
@@ -489,5 +551,4 @@ public class ${tableModel.tableName}Controller {
         return ResultUtil.result(ResultConstants.SUCCESS);
     }
     </#if>
-
 }
