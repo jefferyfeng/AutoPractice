@@ -3,15 +3,31 @@ var contextPath = document.getElementById('contextPath').value;
 
 var _tool = null;
 
-layui.use(['form','layer','table','laytpl'],function(){
+layui.use(['form','layer','table','laytpl','laydate'],function(){
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
         laytpl = layui.laytpl,
+        laydate = layui.laydate,
         table = layui.table;
 
-    //渲染数据表格${tableModel.comment}列表
     var index = layer.load(1);
+
+    <#list tableModel.columnModelList as columnModel>
+    <#if excludeList?seq_contains(columnModel.columnName)>
+    <#else>
+    <#if columnModel.columnType == "java.util.Date">
+    //初始化时间控件
+    var ${columnModel.columnName} = laydate.render({
+        elem: '#${columnModel.columnName}', //指定元素
+        type: 'datetime',
+        format : 'yyyy-MM-dd HH:mm:ss'
+    });
+    </#if>
+    </#if>
+    </#list>
+
+    //渲染数据表格${tableModel.comment}列表
     var tableIns = table.render({
         elem: '#${tableModel.tableNameLowFirstChar}List',
         url : contextPath + '/${tableModel.tableNameLowFirstChar}/list${tableModel.tableName}s',
@@ -37,7 +53,7 @@ layui.use(['form','layer','table','laytpl'],function(){
             <#list tableModel.columnModelList as columnModel>
             <#if excludeList?seq_contains(columnModel.columnName)>
             <#else>
-            {field: '${columnModel.columnName}', title: '${columnModel.columnComment}', width:200, align:"center"},
+            {field: '${columnModel.columnName}', title: '${columnModel.columnComment}', width:200, align:"center", <#if columnModel.columnName?contains("status")>templet:function(data){ return formatStatus(data.status); }</#if>},
             </#if>
             </#list>
             {title: '操作', width:220, fixed:"right", templet:'#${tableModel.tableNameLowFirstChar}ListBar',align:"center"}
@@ -50,7 +66,7 @@ layui.use(['form','layer','table','laytpl'],function(){
         //重新渲染数据表格
         table.reload("${tableModel.tableNameLowFirstChar}ListTable",{
             page: {
-                currentPage : 1
+                curr : 1 //layui此处有点bug 前一步已经把curr改为currentPage了，但此处仍为curr
             },
             where: data.field,
             done : function () {
@@ -193,7 +209,7 @@ layui.use(['form','layer','table','laytpl'],function(){
                         //重新渲染数据表格
                         reloadTable();
                         if(resSuccess(result.code)){
-                            succMsg('批量启用成功！');
+                            succMsg('批量禁用成功！');
                         }else{
                             failMsg();
                         }

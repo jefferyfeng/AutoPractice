@@ -1,10 +1,25 @@
 //获取隐藏域的值
 var contextPath = document.getElementById('contextPath').value;
 
-layui.use(['form','layer','jquery'],function(){
+layui.use(['form','layer','jquery','laydate'],function(){
     var form = layui.form
         layer = parent.layer === undefined ? layui.layer : top.layer,
+        laydate = layui.laydate,
         $ = layui.jquery;
+
+    <#list tableModel.columnModelList as columnModel>
+    <#if excludeList?seq_contains(columnModel.columnName)>
+    <#else>
+    <#if columnModel.columnType == "java.util.Date">
+    //初始化时间控件
+    var ${columnModel.columnName} = laydate.render({
+        elem: '#${columnModel.columnName}', //指定元素
+        type: 'datetime',
+        format : 'yyyy-MM-dd HH:mm:ss'
+    });
+    </#if>
+    </#if>
+    </#list>
 
     //自定义验证规则
     form.verify({

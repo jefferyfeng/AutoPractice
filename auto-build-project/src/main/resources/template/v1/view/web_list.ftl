@@ -26,14 +26,18 @@
     <#if excludeList?seq_contains(columnModel.columnName)>
     <#else>
     <div class="layui-input-inline">
-
         <lable class="layui-form-label"><#if columnModel.columnComment??>${columnModel.columnComment}: </#if></lable>
-        <#--<#if columnModel.columnType=="java.util.Date">
-        <#else>-->
         <div class="layui-input-block">
-            <input type="text"  name="${columnModel.columnName}" autocomplete="off" placeholder="${columnModel.columnComment}" class="layui-input" />
+            <#if columnModel.columnName?contains("status")>
+            <select name="${columnModel.columnName}" >
+                <option value="" selected="selected">请选择状态</option>
+                <option value="0">禁用</option>
+                <option value="1">启用</option>
+            </select>
+            <#else>
+            <input type="text"  name="${columnModel.columnName}" autocomplete="off" placeholder="${columnModel.columnComment}" class="layui-input" <#if columnModel.columnType == "java.util.Date">id="${columnModel.columnName}" readonly</#if>/>
+            </#if>
         </div>
-        <#--</#if>-->
     </div>
     </#if>
     </#list>

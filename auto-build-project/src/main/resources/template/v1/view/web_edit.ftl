@@ -1,5 +1,6 @@
 <#noparse><%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,19 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">${columnModel.columnComment}</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input" name="${columnModel.columnName}" value="<#noparse>${</#noparse>${tableModel.tableNameLowFirstChar}.${columnModel.columnName}<#noparse>}</#noparse>"  lay-verify="${columnModel.columnName}" placeholder="请输入${columnModel.columnComment}">
+        <#if columnModel.columnName?contains("status")>
+            <select name="${columnModel.columnName}" >
+                <option value="" <c:if test="<#noparse>${</#noparse>${tableModel.tableNameLowFirstChar}.${columnModel.columnName} == null<#noparse>}</#noparse>">selected="selected"</c:if>>请选择状态</option>
+                <option value="0" <c:if test="<#noparse>${</#noparse>${tableModel.tableNameLowFirstChar}.${columnModel.columnName} == 0<#noparse>}</#noparse>">selected="selected"</c:if>>禁用</option>
+                <option value="1" <c:if test="<#noparse>${</#noparse>${tableModel.tableNameLowFirstChar}.${columnModel.columnName} == 1<#noparse>}</#noparse>">selected="selected"</c:if>>启用</option>
+            </select>
+        <#else>
+            <#if columnModel.columnType == "java.util.Date">
+            <input type="text" class="layui-input" name="${columnModel.columnName}" value="<fmt:formatDate value="<#noparse>${</#noparse>${tableModel.tableNameLowFirstChar}.${columnModel.columnName}<#noparse>}</#noparse>" type="date" pattern="yyyy-MM-dd HH:mm:ss"/>"  lay-verify="${columnModel.columnName}" placeholder="请输入${columnModel.columnComment}" id="${columnModel.columnName}" readonly />
+            <#else>
+            <input type="text" class="layui-input" name="${columnModel.columnName}" value="<#noparse>${</#noparse>${tableModel.tableNameLowFirstChar}.${columnModel.columnName}<#noparse>}</#noparse>"  lay-verify="${columnModel.columnName}" placeholder="请输入${columnModel.columnComment}"/>
+            </#if>
+        </#if>
         </div>
     </div>
     </#if>

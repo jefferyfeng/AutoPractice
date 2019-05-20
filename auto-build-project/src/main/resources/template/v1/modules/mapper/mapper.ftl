@@ -99,7 +99,7 @@
         from <include refid="table_name" />
         where is_valid = '1'
         <#list tableModel.columnModelList as columnModel>
-        <if test="${columnModel.columnName} != null">
+        <if test="${columnModel.columnName} != null <#if columnModel.columnType == "java.lang.String">and ${columnModel.columnName} != ''</#if>">
             and ${columnModel.columnDBName} = ${"#"}{${columnModel.columnName}}
         </if>
         </#list>

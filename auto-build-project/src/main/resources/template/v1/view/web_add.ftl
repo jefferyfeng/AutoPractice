@@ -26,12 +26,18 @@
     <#else>
     <#if columnModel.isPrimaryKey>
     <#else>
-    <div class="layui-input-inline">
-        <div class="layui-form-item layui-row layui-col-xs12">
-            <label class="layui-form-label">${columnModel.columnComment}</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="${columnModel.columnName}" lay-verify="${columnModel.columnName}" placeholder="请输入${columnModel.columnComment}">
-            </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">${columnModel.columnComment}</label>
+        <div class="layui-input-block">
+        <#if columnModel.columnName?contains("status")>
+            <select name="${columnModel.columnName}" >
+                <option value="" selected="selected">请选择状态</option>
+                <option value="0">禁用</option>
+                <option value="1">启用</option>
+            </select>
+        <#else>
+            <input type="text" class="layui-input" name="${columnModel.columnName}" lay-verify="${columnModel.columnName}" placeholder="请输入${columnModel.columnComment}" <#if columnModel.columnType == "java.util.Date">id="${columnModel.columnName}" readonly</#if> />
+        </#if>
         </div>
     </div>
     </#if>
