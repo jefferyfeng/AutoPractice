@@ -29,6 +29,15 @@
         <property name="dataSource" ref="dataSource"></property>
         <property name="typeAliasesPackage" value="${typeAliasesPackage}"></property>
         <property name="mapperLocations" value="${mapperLocations}"></property>
+        <property name="plugins">
+            <list>
+                <!-- ibatis分页插件拦截器配置 -->
+                <bean id="pageInterceptor" class="${interceptorPackage}.PageInterceptor">
+                    <property name="dialect" value="mysql" />
+                    <property name="pageSqlId" value=".*Page$" />
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">

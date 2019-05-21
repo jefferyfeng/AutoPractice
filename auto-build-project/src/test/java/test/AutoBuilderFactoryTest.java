@@ -254,6 +254,7 @@ public class AutoBuilderFactoryTest {
         dataModel.put("basePackage",config.getGroupId()+".core.base");
         dataModel.put("constantsPackage",config.getGroupId()+".core.constants");
         dataModel.put("utilPackage",config.getGroupId()+".core.util");
+        dataModel.put("interceptorPackage", config.getGroupId()+".core.interceptor");
         //创建core-base包下文件
         createPackageFiles(basePath,"/core/base", ".java", "\t\t\t\t\t", dataModel);
 
@@ -272,6 +273,13 @@ public class AutoBuilderFactoryTest {
         FileUtil.mkdirs(new File(utilPath));
         //创建core-util包下文件
         createPackageFiles(utilPath,"/core/util", ".java", "\t\t\t\t\t", dataModel);
+
+        //创建interceptor目录
+        String interceptorPath = coreDir + "/interceptor";
+        System.out.println("\t\t\t\t|--创建interceptor : "+interceptorPath);
+        FileUtil.mkdirs(new File(interceptorPath));
+        //创建core-util包下文件
+        createPackageFiles(interceptorPath,"/core/interceptor", ".java", "\t\t\t\t\t", dataModel);
     }
 
     /**
@@ -407,6 +415,7 @@ public class AutoBuilderFactoryTest {
         dataMap.put("typeAliasesPackage",config.getGroupId()+".modules.**."+config.getEntityPackageName());
         dataMap.put("mapperLocations","classpath:/" + StringUtil.getPathStr(config.getGroupId())+"/modules/**/"+config.getMapperPackageName()+"/*.xml");
         dataMap.put("basePackage",config.getGroupId()+".modules.**."+config.getDaoPackageName());
+        dataMap.put("interceptor", config.getGroupId()+".core.interceptor");
 
         //logback配置文件
         String logbackDir = resourcesDir + "/logback.xml";
